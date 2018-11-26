@@ -18,5 +18,5 @@ The following frameworks are used.
  - Spring Boot
  - Spring Web MVC
  - Thymeleaf
- - Spring Data (Commons/JPA)
+ - Spring Data (Commons and JPA)
  
