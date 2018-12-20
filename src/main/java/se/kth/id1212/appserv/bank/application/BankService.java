@@ -23,6 +23,8 @@
  */
 package se.kth.id1212.appserv.bank.application;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -50,6 +52,7 @@ public class BankService {
     private AccountRepository accountRepo;
     @Autowired
     private HolderRepository holderRepo;
+    private static final Logger LOGGER = LoggerFactory.getLogger(BankService.class);
 
     /**
      * Convenience method that creates both holder and account in the same transaction, by calling first {@link
