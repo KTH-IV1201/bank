@@ -30,11 +30,15 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import se.kth.id1212.appserv.bank.domain.Holder;
 
+import java.util.List;
+
 /**
  * Contains all database access concerning holders.
  */
 @Repository
-@Transactional(propagation = Propagation.MANDATORY)
+@Transactional(propagation = Propagation.MANDATORY) // Applies only to methods explicitly declared in this interface,
+// not to those inherited from JpaRepository. This is quite dangerous, there will be no error if an inherited method is
+// called, but default transaction configuration will be used instead of what is declared here.
 public interface HolderRepository extends JpaRepository<Holder, Long> {
     // /**
     //  * Searches for all holders with the specified name.
@@ -45,16 +49,19 @@ public interface HolderRepository extends JpaRepository<Holder, Long> {
     //  */
     // public List<Holder> findHoldersByName(String name);
     //
+
     /**
-     * Returns the holder with the specified holder number, or null if there
-     * is no such holder.
+     * Returns the holder with the specified holder number, or null if there is no such holder.
      *
      * @param holderNo The number of the holder to search for.
-     * @return The account with the specified holder number, or null if there
-     * is no such holder.
-     * @throws IncorrectResultSizeDataAccessException If more than one holder
-     *                                                with the specified number
-     *                                                was found.
+     * @return The account with the specified holder number, or null if there is no such holder.
+     * @throws IncorrectResultSizeDataAccessException If more than one holder with the specified number was found.
      */
     Holder findHolderByHolderNo(long holderNo);
+
+    @Override
+    Holder save(Holder holder);
+
+    @Override
+    List<Holder> findAll();
 }

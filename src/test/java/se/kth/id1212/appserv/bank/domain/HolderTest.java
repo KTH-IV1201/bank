@@ -1,20 +1,23 @@
 package se.kth.id1212.appserv.bank.domain;
 
 import net.jcip.annotations.NotThreadSafe;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.annotation.Commit;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.transaction.TestTransaction;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.TransactionSystemException;
+import org.springframework.transaction.annotation.Transactional;
 import se.kth.id1212.appserv.bank.repository.DbUtil;
 import se.kth.id1212.appserv.bank.repository.HolderRepository;
 
@@ -41,8 +44,11 @@ import static org.hamcrest.Matchers.not;
     //@SpringBootTest can be used instead of @SpringJUnitWebConfig,
     // @EnableAutoConfiguration and @ComponentScan, but are we using
     // JUnit5 in that case?
-@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, HolderTest.class})
+@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, HolderTest.class,
+                                     TransactionalTestExecutionListener.class})
 @NotThreadSafe
+@Transactional
+@Commit
 class HolderTest implements TestExecutionListener {
     @Autowired
     private DbUtil dbUtil;
@@ -86,27 +92,32 @@ class HolderTest implements TestExecutionListener {
     }
 
     @Test
+    @Rollback
     void testNullName() {
         testInvalidHolder(new Holder(null), "{holder.name.missing}");
     }
 
     @Test
+    @Rollback
     void testEmptyHolder() {
         testInvalidHolder(new Holder(""), "{holder.name.length}");
     }
 
     @Test
+    @Rollback
     void testTooShortHolder() {
         testInvalidHolder(new Holder("a"), "{holder.name.length}");
     }
 
     @Test
+    @Rollback
     void testTooLongHolder() {
         testInvalidHolder(new Holder("abcdeabcdeabcdeabcdeabcdeabcdep"),
                           "{holder.name.length}");
     }
 
     @Test
+    @Rollback
     void testHolderWithInvalidChar() {
         testInvalidHolder(new Holder("a."), "{holder.name.invalid-char}");
     }
@@ -115,6 +126,7 @@ class HolderTest implements TestExecutionListener {
     void testValidHolderIsPersisted()
         throws IOException, SQLException, ClassNotFoundException {
         repository.save(instance);
+        startNewTransaction();
         List<Holder> holdersInDb = repository.findAll();
         assertThat(holdersInDb, containsInAnyOrder(instance));
     }
@@ -165,5 +177,10 @@ class HolderTest implements TestExecutionListener {
                     hasProperty("messageTemplate", equalTo(expectedMsg))));
             }
         }
+    }
+
+    private void startNewTransaction() {
+        TestTransaction.end();
+        TestTransaction.start();
     }
 }

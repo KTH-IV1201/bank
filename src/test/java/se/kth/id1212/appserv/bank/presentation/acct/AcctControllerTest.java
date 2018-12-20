@@ -1,22 +1,25 @@
 package se.kth.id1212.appserv.bank.presentation.acct;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.transaction.TestTransaction;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import se.kth.id1212.appserv.bank.application.BankServiceTest;
 import se.kth.id1212.appserv.bank.domain.Account;
 import se.kth.id1212.appserv.bank.domain.AccountDTO;
 import se.kth.id1212.appserv.bank.domain.Holder;
@@ -50,7 +53,10 @@ import static se.kth.id1212.appserv.bank.presentation.PresentationTestHelper.sen
     //@SpringBootTest can be used instead of @SpringJUnitWebConfig,
     // @EnableAutoConfiguration and @ComponentScan, but are we using
     // JUnit5 in that case?
-@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, AcctControllerTest.class})
+@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, AcctControllerTest.class,
+                                     TransactionalTestExecutionListener.class})
+@Transactional
+@Commit
 class AcctControllerTest implements TestExecutionListener {
     @Autowired
     private DbUtil dbUtil;
@@ -105,6 +111,7 @@ class AcctControllerTest implements TestExecutionListener {
             .andExpect(status().isOk())
             .andExpect(isAcctPage())
             .andExpect(doesNotContainElements("span.error"));
+        startNewTransaction();
         List<Account> acctsInDb = acctRepo.findAll();
         assertThat(acctsInDb.size(), is(1));
         assertThat(acctsInDb, hasItem(hasProperty("balance", equalTo(acct.getBalance()))));
@@ -182,6 +189,7 @@ class AcctControllerTest implements TestExecutionListener {
     @Test
     void testFindExistingAcct() throws Exception {
         acctRepo.save(acct);
+        startNewTransaction();
         sendPostRequest(mockMvc, AcctController.FIND_ACCT_URL, addParam("number", Long.toString(acct.getAcctNo())))
             .andExpect(status().isOk())
             .andExpect(isAcctPage())
@@ -231,6 +239,7 @@ class AcctControllerTest implements TestExecutionListener {
             .andExpect(status().isOk())
             .andExpect(isAcctPage())
             .andExpect(containsElements("span:contains(balance)+span:contains(" + (acct.getBalance() + amtToDeposit) + ")"));
+        startNewTransaction();
         List<Account> acctsInDb = acctRepo.findAll();
         assertThat(acctsInDb.size(), is(1));
         assertThat(acctsInDb, hasItem(hasProperty("balance", equalTo(acct.getBalance() + amtToDeposit))));
@@ -243,6 +252,7 @@ class AcctControllerTest implements TestExecutionListener {
             .andExpect(status().isInternalServerError())
             .andExpect(isErrorPage())
             .andExpect(containsElements("main h1:contains(Deposit Failed)"));
+        startNewTransaction();
         List<Account> acctsInDb = acctRepo.findAll();
         assertThat(acctsInDb, empty());
     }
@@ -297,6 +307,7 @@ class AcctControllerTest implements TestExecutionListener {
             .andExpect(status().isOk())
             .andExpect(isAcctPage())
             .andExpect(containsElements("span:contains(balance)+span:contains(" + (acct.getBalance() - amtToWithdraw) + ")"));
+        startNewTransaction();
         List<Account> acctsInDb = acctRepo.findAll();
         assertThat(acctsInDb.size(), is(1));
         assertThat(acctsInDb, hasItem(hasProperty("balance", equalTo(acct.getBalance() - amtToWithdraw))));
@@ -311,6 +322,7 @@ class AcctControllerTest implements TestExecutionListener {
             .andExpect(status().isInternalServerError())
             .andExpect(isErrorPage())
             .andExpect(containsElements("main h1:contains(Withdrawal Failed)"));
+        startNewTransaction();
         List<Account> acctsInDb = acctRepo.findAll();
         assertThat(acctsInDb.size(), is(1));
         assertThat(acctsInDb, hasItem(hasProperty("balance", equalTo(acct.getBalance()))));
@@ -323,6 +335,7 @@ class AcctControllerTest implements TestExecutionListener {
             .andExpect(status().isInternalServerError())
             .andExpect(isErrorPage())
             .andExpect(containsElements("main h1:contains(Withdrawal Failed)"));
+        startNewTransaction();
         List<Account> acctsInDb = acctRepo.findAll();
         assertThat(acctsInDb, empty());
     }
@@ -396,5 +409,10 @@ class AcctControllerTest implements TestExecutionListener {
 
     private ResultMatcher isErrorPage() {
         return view().name(is(ExceptionHandlers.ERROR_PAGE_URL));
+    }
+
+    private void startNewTransaction() {
+        TestTransaction.end();
+        TestTransaction.start();
     }
 }

@@ -1,20 +1,23 @@
 package se.kth.id1212.appserv.bank.domain;
 
 import net.jcip.annotations.NotThreadSafe;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.annotation.Commit;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.transaction.TestTransaction;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.TransactionSystemException;
+import org.springframework.transaction.annotation.Transactional;
 import se.kth.id1212.appserv.bank.repository.AccountRepository;
 import se.kth.id1212.appserv.bank.repository.DbUtil;
 
@@ -37,11 +40,14 @@ import static org.hamcrest.Matchers.not;
 @SpringJUnitWebConfig(initializers = ConfigFileApplicationContextInitializer.class)
 @EnableAutoConfiguration
 @ComponentScan(basePackages = {"se.kth.id1212.appserv.bank"})
-    //@SpringBootTest can be used instead of @SpringJUnitWebConfig,
-    // @EnableAutoConfiguration and @ComponentScan, but are we using
-    // JUnit5 in that case?
-@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, AccountTest.class})
+//@SpringBootTest can be used instead of @SpringJUnitWebConfig,
+// @EnableAutoConfiguration and @ComponentScan, but are we using
+// JUnit5 in that case?
+@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, AccountTest.class,
+                                     TransactionalTestExecutionListener.class})
 @NotThreadSafe
+@Transactional
+@Commit
 class AccountTest implements TestExecutionListener {
     @Autowired
     private DbUtil dbUtil;
@@ -77,30 +83,30 @@ class AccountTest implements TestExecutionListener {
     }
 
     @Test
+    @Rollback
     void testNegBalance() {
-        testInvalidAcct(new Account(instance.getHolder(), -10),
-                        "{acct.balance.negative}");
+        testInvalidAcct(new Account(instance.getHolder(), -10), "{acct.balance.negative}");
     }
 
     @Test
+    @Rollback
     void testMissingHolder() {
-        testInvalidAcct(new Account(null, 10),
-                        "{acct.holder.missing}");
+        testInvalidAcct(new Account(null, 10), "{acct.holder.missing}");
     }
 
     @Test
-    void testValidAcctIsPersisted()
-        throws IOException, SQLException, ClassNotFoundException {
+    void testValidAcctIsPersisted() throws IOException, SQLException, ClassNotFoundException {
         repository.save(instance);
+        startNewTransaction();
         List<Account> holdersInDb = repository.findAll();
         assertThat(holdersInDb, containsInAnyOrder(instance));
     }
 
     @Test
-    void testZeroBalanceIsValid()
-        throws IOException, SQLException, ClassNotFoundException {
+    void testZeroBalanceIsValid() throws IOException, SQLException, ClassNotFoundException {
         Account acctWithZeroBalance = new Account(instance.getHolder(), 0);
         repository.save(acctWithZeroBalance);
+        startNewTransaction();
         List<Account> holdersInDb = repository.findAll();
         assertThat(holdersInDb, containsInAnyOrder(acctWithZeroBalance));
     }
@@ -129,22 +135,25 @@ class AccountTest implements TestExecutionListener {
         assertThat(stringRepresentation, containsString("acctNo"));
         assertThat(stringRepresentation, containsString("holder"));
         assertThat(stringRepresentation, containsString("optLockVersion"));
-        assertThat(stringRepresentation,
-                   containsString(Integer.toString(instance.getBalance())));
+        assertThat(stringRepresentation, containsString(Integer.toString(instance.getBalance())));
     }
 
     private void testInvalidAcct(Account acct, String... expectedMsgs) {
         try {
+            startNewTransaction();
             repository.save(acct);
         } catch (TransactionSystemException exc) {
             Set<ConstraintViolation<?>> result =
-                ((ConstraintViolationException)exc.getCause().getCause())
-                    .getConstraintViolations();
+                ((ConstraintViolationException)exc.getCause().getCause()).getConstraintViolations();
             assertThat(result.size(), is(expectedMsgs.length));
             for (String expectedMsg : expectedMsgs) {
-                assertThat(result, hasItem(
-                    hasProperty("messageTemplate", equalTo(expectedMsg))));
+                assertThat(result, hasItem(hasProperty("messageTemplate", equalTo(expectedMsg))));
             }
         }
+    }
+
+    private void startNewTransaction() {
+        TestTransaction.end();
+        TestTransaction.start();
     }
 }

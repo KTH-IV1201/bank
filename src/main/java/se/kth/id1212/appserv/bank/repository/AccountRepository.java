@@ -30,11 +30,15 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import se.kth.id1212.appserv.bank.domain.Account;
 
+import java.util.List;
+
 /**
  * Contains all database access concerning accounts.
  */
 @Repository
-@Transactional(propagation = Propagation.MANDATORY)
+@Transactional(propagation = Propagation.MANDATORY) // Applies only to methods explicitly declared in this interface,
+// not to those inherited from JpaRepository. This is quite dangerous, there will be no error if an inherited method is
+// called, but default transaction configuration will be used instead of what is declared here.
 public interface AccountRepository extends JpaRepository<Account, Long> {
     /**
      * Returns the account with the specified account number, or null if there
@@ -48,4 +52,10 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
      *                                                was found.
      */
     Account findAccountByAcctNo(long acctNo);
+
+    @Override
+    List<Account> findAll();
+
+    @Override
+    Account save(Account acct);
 }
