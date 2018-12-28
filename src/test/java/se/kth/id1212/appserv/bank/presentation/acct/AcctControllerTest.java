@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-import se.kth.id1212.appserv.bank.application.BankServiceTest;
 import se.kth.id1212.appserv.bank.domain.Account;
 import se.kth.id1212.appserv.bank.domain.AccountDTO;
 import se.kth.id1212.appserv.bank.domain.Holder;
