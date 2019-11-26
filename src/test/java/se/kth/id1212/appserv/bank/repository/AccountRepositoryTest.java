@@ -31,12 +31,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitWebConfig(initializers = ConfigFileApplicationContextInitializer.class)
 @EnableAutoConfiguration
-@ComponentScan(basePackages = {"se.kth.id1212.appserv.bank"})
-    //@SpringBootTest can be used instead of @SpringJUnitWebConfig,
-    // @EnableAutoConfiguration and @ComponentScan, but are we using
-    // JUnit5 in that case?
-@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, AccountRepositoryTest.class,
-                                     TransactionalTestExecutionListener.class})
+@ComponentScan(basePackages = { "se.kth.id1212.appserv.bank" })
+// @SpringBootTest can be used instead of @SpringJUnitWebConfig,
+// @EnableAutoConfiguration and @ComponentScan, but are we using
+// JUnit5 in that case?
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class, AccountRepositoryTest.class,
+        TransactionalTestExecutionListener.class })
 @NotThreadSafe
 @Transactional
 @Commit
@@ -60,7 +60,7 @@ class AccountRepositoryTest implements TestExecutionListener {
     }
 
     private void enableCreatingEMFWhichIsNeededForTheApplicationContext()
-        throws SQLException, IOException, ClassNotFoundException {
+            throws SQLException, IOException, ClassNotFoundException {
         dbUtil.emptyDb();
     }
 
@@ -84,8 +84,7 @@ class AccountRepositoryTest implements TestExecutionListener {
     void testFindExistingAcctByAcctNo() {
         instance.save(acct);
         startNewTransaction();
-        Account acctInDb =
-            instance.findAccountByAcctNo(acct.getAcctNo());
+        Account acctInDb = instance.findAccountByAcctNo(acct.getAcctNo());
         assertThat(acctInDb.getAcctNo(), is(acct.getAcctNo()));
     }
 
@@ -93,8 +92,7 @@ class AccountRepositoryTest implements TestExecutionListener {
     void testFindNonExistingAcctByAcctNo() {
         instance.save(acct);
         startNewTransaction();
-        Account acctInDb =
-            instance.findAccountByAcctNo(0);
+        Account acctInDb = instance.findAccountByAcctNo(0);
         assertThat(acctInDb == null, is(true));
     }
 

@@ -37,19 +37,21 @@ import java.util.List;
  */
 @Repository
 @Transactional(propagation = Propagation.MANDATORY) // Applies only to methods explicitly declared in this interface,
-// not to those inherited from JpaRepository. This is quite dangerous, there will be no error if an inherited method is
-// called, but default transaction configuration will be used instead of what is declared here.
+// not to those inherited from JpaRepository. This is quite dangerous, there
+// will be no error if an inherited method is
+// called, but default transaction configuration will be used instead of what is
+// declared here.
 public interface AccountRepository extends JpaRepository<Account, Long> {
     /**
-     * Returns the account with the specified account number, or null if there
-     * is no such account.
+     * Returns the account with the specified account number, or null if there is no
+     * such account.
      *
      * @param acctNo The number of the account to search for.
-     * @return The account with the specified account number, or null if there
-     * is no such account.
-     * @throws IncorrectResultSizeDataAccessException If more than one account
-     *                                                with the specified number
-     *                                                was found.
+     * @return The account with the specified account number, or null if there is no
+     *         such account.
+     * @throws IncorrectResultSizeDataAccessException If more than one account with
+     *                                                the specified number was
+     *                                                found.
      */
     Account findAccountByAcctNo(long acctNo);
 
