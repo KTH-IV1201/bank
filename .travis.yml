@@ -1,8 +1,8 @@
 sudo: required
 language: java
 jdk:
-- oraclejdk8
-- oraclejdk11
+- openjdk8
+- oraclejdk13
 addons:
   mariadb: '10.3'
 env:
