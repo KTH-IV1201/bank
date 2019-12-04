@@ -38,9 +38,7 @@ class CreateAcctForm {
     @NotBlank(message = "{create-acct.holder-name.missing}")
     // The regex below should permit only characters, but asterisk is
     // unfortunately also valid.
-    @Pattern(regexp = "^[\\p{L}\\p{M}*]*$", message = "{create-acct" +
-                                                      ".holder-name" +
-                                                      ".invalid-char}")
+    @Pattern(regexp = "^[\\p{L}\\p{M}*]*$", message = "{create-acct" + ".holder-name" + ".invalid-char}")
     @Size(min = 2, max = 30, message = "{create-acct.holder-name.length}")
     private String holderName;
 
@@ -71,7 +69,7 @@ class CreateAcctForm {
 
     /**
      * @param holderName The name of the holderName of the account that will be
-     *               created.
+     *                   created.
      */
     public void setHolderName(String holderName) {
         this.holderName = holderName;

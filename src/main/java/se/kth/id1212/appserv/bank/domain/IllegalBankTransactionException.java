@@ -28,6 +28,8 @@ package se.kth.id1212.appserv.bank.domain;
  * allowed by the bank's business rules.
  */
 public class IllegalBankTransactionException extends Exception {
+    private static final long serialVersionUID = 6355945960847848819L;
+
     /**
      * Creates a new instance with the specified message.
      *

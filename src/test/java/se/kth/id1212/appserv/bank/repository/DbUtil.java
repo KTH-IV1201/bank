@@ -44,18 +44,16 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.Reader;
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
-@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON) //Default scope, this annotation is not required.
+@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON) // Default scope, this annotation is not required.
 public class DbUtil {
-    private static final Pattern delimP =
-        Pattern.compile("^\\s*(--)?\\s*delimiter\\s*=?\\s*([^\\s]+)+\\s*.*$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern delimP = Pattern.compile("^\\s*(--)?\\s*delimiter\\s*=?\\s*([^\\s]+)+\\s*.*$",
+            Pattern.CASE_INSENSITIVE);
     private static final String DEFAULT_DELIMITER = ";";
     private static DataSource db;
     private boolean autoCommit;
@@ -78,10 +76,12 @@ public class DbUtil {
     }
 
     /**
-     * Drops all tables and creates a new, empty, bank database, by executing the script specified in the property
-     * <code>se.kth.id1212.db.emptydb</code>. Database driver, url, username and password are read from the following
-     * properties: <code>spring.datasource.driver-class-name</code>, <code>spring.datasource.url</code>,
-     * <code>spring.datasource.username</code>, <code>spring.datasource.password</code>
+     * Drops all tables and creates a new, empty, bank database, by executing the
+     * script specified in the property <code>se.kth.id1212.db.emptydb</code>.
+     * Database driver, url, username and password are read from the following
+     * properties: <code>spring.datasource.driver-class-name</code>,
+     * <code>spring.datasource.url</code>, <code>spring.datasource.username</code>,
+     * <code>spring.datasource.password</code>
      */
     public void emptyDb() throws IOException {
         runScript(new BufferedReader(new FileReader(env.getProperty("se.kth.id1212.db.emptydb"))));
@@ -127,8 +127,8 @@ public class DbUtil {
                     // Do nothing
                 } else if (trimmedLine.length() < 1 || trimmedLine.startsWith("--")) {
                     // Do nothing
-                } else if (!fullLineDelimiter && trimmedLine.endsWith(getDelimiter()) ||
-                           fullLineDelimiter && trimmedLine.equals(getDelimiter())) {
+                } else if (!fullLineDelimiter && trimmedLine.endsWith(getDelimiter())
+                        || fullLineDelimiter && trimmedLine.equals(getDelimiter())) {
                     command.append(line.substring(0, line.lastIndexOf(getDelimiter())));
                     command.append(" ");
                     this.execCommand(conn, command, lineReader);
@@ -154,9 +154,10 @@ public class DbUtil {
     private void execCommand(Connection conn, StringBuffer command, LineNumberReader lineReader) throws SQLException {
         Statement statement = conn.createStatement();
 
-        boolean hasResults = false;
+        // boolean hasResults = false;
         try {
-            hasResults = statement.execute(command.toString());
+            // hasResults = statement.execute(command.toString());
+            statement.execute(command.toString());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -165,19 +166,19 @@ public class DbUtil {
             conn.commit();
         }
 
-        ResultSet rs = statement.getResultSet();
-        if (hasResults && rs != null) {
-            ResultSetMetaData md = rs.getMetaData();
-            int cols = md.getColumnCount();
-            for (int i = 1; i <= cols; i++) {
-                String name = md.getColumnLabel(i);
-            }
-            while (rs.next()) {
-                for (int i = 1; i <= cols; i++) {
-                    String value = rs.getString(i);
-                }
-            }
-        }
+        // ResultSet rs = statement.getResultSet();
+        // if (hasResults && rs != null) {
+        // ResultSetMetaData md = rs.getMetaData();
+        // int cols = md.getColumnCount();
+        // for (int i = 1; i <= cols; i++) {
+        // String name = md.getColumnLabel(i);
+        // }
+        // while (rs.next()) {
+        // for (int i = 1; i <= cols; i++) {
+        // String value = rs.getString(i);
+        // }
+        // }
+        // }
 
         try {
             statement.close();

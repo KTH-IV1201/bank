@@ -30,12 +30,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitWebConfig(initializers = ConfigFileApplicationContextInitializer.class)
 @EnableAutoConfiguration
-@ComponentScan(basePackages = {"se.kth.id1212.appserv.bank"})
-    //@SpringBootTest can be used instead of @SpringJUnitWebConfig,
-    // @EnableAutoConfiguration and @ComponentScan, but are we using
-    // JUnit5 in that case?
-@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, HolderRepositoryTest.class,
-                                     TransactionalTestExecutionListener.class})
+@ComponentScan(basePackages = { "se.kth.id1212.appserv.bank" })
+// @SpringBootTest can be used instead of @SpringJUnitWebConfig,
+// @EnableAutoConfiguration and @ComponentScan, but are we using
+// JUnit5 in that case?
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class, HolderRepositoryTest.class,
+        TransactionalTestExecutionListener.class })
 @NotThreadSafe
 @Transactional
 @Commit
@@ -58,7 +58,7 @@ class HolderRepositoryTest implements TestExecutionListener {
     }
 
     private void enableCreatingEMFWhichIsNeededForTheApplicationContext()
-        throws SQLException, IOException, ClassNotFoundException {
+            throws SQLException, IOException, ClassNotFoundException {
         dbUtil.emptyDb();
     }
 
@@ -80,8 +80,7 @@ class HolderRepositoryTest implements TestExecutionListener {
     void testFindExistingHolderByHolderNo() {
         instance.save(holder);
         startNewTransaction();
-        Holder holderInDb =
-            instance.findHolderByHolderNo(holder.getHolderNo());
+        Holder holderInDb = instance.findHolderByHolderNo(holder.getHolderNo());
         assertThat(holderInDb.getHolderNo(), is(holder.getHolderNo()));
     }
 
@@ -89,8 +88,7 @@ class HolderRepositoryTest implements TestExecutionListener {
     void testFindNonExistingHolderByHolderNo() {
         instance.save(holder);
         startNewTransaction();
-        Holder holderInDb =
-            instance.findHolderByHolderNo(0);
+        Holder holderInDb = instance.findHolderByHolderNo(0);
         assertThat(holderInDb == null, is(true));
     }
 

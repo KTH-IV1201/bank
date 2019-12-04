@@ -40,12 +40,12 @@ import static org.hamcrest.Matchers.not;
 
 @SpringJUnitWebConfig(initializers = ConfigFileApplicationContextInitializer.class)
 @EnableAutoConfiguration
-@ComponentScan(basePackages = {"se.kth.id1212.appserv.bank"})
-    //@SpringBootTest can be used instead of @SpringJUnitWebConfig,
-    // @EnableAutoConfiguration and @ComponentScan, but are we using
-    // JUnit5 in that case?
-@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, HolderTest.class,
-                                     TransactionalTestExecutionListener.class})
+@ComponentScan(basePackages = { "se.kth.id1212.appserv.bank" })
+// @SpringBootTest can be used instead of @SpringJUnitWebConfig,
+// @EnableAutoConfiguration and @ComponentScan, but are we using
+// JUnit5 in that case?
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class, HolderTest.class,
+        TransactionalTestExecutionListener.class })
 @NotThreadSafe
 @Transactional
 @Commit
@@ -68,7 +68,7 @@ class HolderTest implements TestExecutionListener {
     }
 
     private void enableCreatingEMFWhichIsNeededForTheApplicationContext()
-        throws SQLException, IOException, ClassNotFoundException {
+            throws SQLException, IOException, ClassNotFoundException {
         dbUtil.emptyDb();
     }
 
@@ -112,8 +112,7 @@ class HolderTest implements TestExecutionListener {
     @Test
     @Rollback
     void testTooLongHolder() {
-        testInvalidHolder(new Holder("abcdeabcdeabcdeabcdeabcdeabcdep"),
-                          "{holder.name.length}");
+        testInvalidHolder(new Holder("abcdeabcdeabcdeabcdeabcdeabcdep"), "{holder.name.length}");
     }
 
     @Test
@@ -123,8 +122,7 @@ class HolderTest implements TestExecutionListener {
     }
 
     @Test
-    void testValidHolderIsPersisted()
-        throws IOException, SQLException, ClassNotFoundException {
+    void testValidHolderIsPersisted() throws IOException, SQLException, ClassNotFoundException {
         repository.save(instance);
         startNewTransaction();
         List<Holder> holdersInDb = repository.findAll();
@@ -143,8 +141,7 @@ class HolderTest implements TestExecutionListener {
 
     @Test
     void testNotEqualToOtherHolderWithSameName() {
-        assertThat(instance.equals(new Holder(instance.getName())),
-                   is(not(true)));
+        assertThat(instance.equals(new Holder(instance.getName())), is(not(true)));
     }
 
     @Test
@@ -168,13 +165,11 @@ class HolderTest implements TestExecutionListener {
         try {
             repository.save(holder);
         } catch (TransactionSystemException exc) {
-            Set<ConstraintViolation<?>> result =
-                ((ConstraintViolationException)exc.getCause().getCause())
+            Set<ConstraintViolation<?>> result = ((ConstraintViolationException) exc.getCause().getCause())
                     .getConstraintViolations();
             assertThat(result.size(), is(expectedMsgs.length));
             for (String expectedMsg : expectedMsgs) {
-                assertThat(result, hasItem(
-                    hasProperty("messageTemplate", equalTo(expectedMsg))));
+                assertThat(result, hasItem(hasProperty("messageTemplate", equalTo(expectedMsg))));
             }
         }
     }

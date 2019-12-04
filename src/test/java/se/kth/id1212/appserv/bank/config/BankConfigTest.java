@@ -1,6 +1,5 @@
 package se.kth.id1212.appserv.bank.config;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +38,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringJUnitWebConfig(initializers = ConfigFileApplicationContextInitializer.class)
 @EnableAutoConfiguration
-@ComponentScan(basePackages = {"se.kth.id1212.appserv.bank"})
-    //@SpringBootTest can be used instead of @SpringJUnitWebConfig,
-    // @EnableAutoConfiguration and @ComponentScan, but are we using
-    // JUnit5 in that case?
-@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, BankConfigTest.class})
+@ComponentScan(basePackages = { "se.kth.id1212.appserv.bank" })
+// @SpringBootTest can be used instead of @SpringJUnitWebConfig,
+// @EnableAutoConfiguration and @ComponentScan, but are we using
+// JUnit5 in that case?
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class, BankConfigTest.class })
 class BankConfigTest implements TestExecutionListener {
     @Autowired
     private DbUtil dbUtil;
@@ -58,7 +57,7 @@ class BankConfigTest implements TestExecutionListener {
     }
 
     private void enableCreatingEMFWhichIsNeededForTheApplicationContext()
-        throws SQLException, IOException, ClassNotFoundException {
+            throws SQLException, IOException, ClassNotFoundException {
         dbUtil.emptyDb();
     }
 
@@ -69,51 +68,40 @@ class BankConfigTest implements TestExecutionListener {
 
     @Test
     void testCorrectServerPropsCreated(@Autowired BankConfig conf) {
-        assertEquals("/bank", conf.serverProperties().getContextRoot(),
-                     "Wrong ServerProperties instance.");
+        assertEquals("/bank", conf.serverProperties().getContextRoot(), "Wrong ServerProperties instance.");
     }
 
     @Test
     void testStaticResourceCanBeRead() throws Exception {
-        mockMvc.perform(get("/resources/fragments/header-imgs/logo.png")) //no
-               // context root since we are not using any server.
-               .andExpect(status().isOk()).andReturn().getResponse()
-               .getContentType().equalsIgnoreCase("image/png");
+        mockMvc.perform(get("/resources/fragments/header-imgs/logo.png")) // no
+                // context root since we are not using any server.
+                .andExpect(status().isOk()).andReturn().getResponse().getContentType().equalsIgnoreCase("image/png");
     }
 
     @Test
-    void testCorrectTemplEngineIsUsed(
-        @Autowired @Qualifier("bankTemplateEngine") SpringTemplateEngine templateEngine,
-        @Autowired ThymeleafViewResolver viewResolver) {
-        assertEquals(templateEngine, viewResolver.getTemplateEngine(),
-                     "Wrong template engine.");
+    void testCorrectTemplEngineIsUsed(@Autowired @Qualifier("bankTemplateEngine") SpringTemplateEngine templateEngine,
+            @Autowired ThymeleafViewResolver viewResolver) {
+        assertEquals(templateEngine, viewResolver.getTemplateEngine(), "Wrong template engine.");
     }
 
     @Test
-    void testCorrectTemplResolverIsUsed(
-        @Autowired ThymeleafViewResolver viewResolver,
-        @Autowired SpringResourceTemplateResolver templateResolver) {
-        assertTrue(((SpringTemplateEngine)viewResolver.getTemplateEngine())
-                       .getTemplateResolvers().contains(templateResolver),
-                   "Wrong template resolver.");
+    void testCorrectTemplResolverIsUsed(@Autowired ThymeleafViewResolver viewResolver,
+            @Autowired SpringResourceTemplateResolver templateResolver) {
+        assertTrue(((SpringTemplateEngine) viewResolver.getTemplateEngine()).getTemplateResolvers()
+                .contains(templateResolver), "Wrong template resolver.");
     }
 
     @Test
-    void testCorrectI18nBeanCreated(
-        @Autowired LocaleChangeInterceptor i18nBean) {
+    void testCorrectI18nBeanCreated(@Autowired LocaleChangeInterceptor i18nBean) {
         assertThat("Wrong properties in i18n bean.", i18nBean,
-                   allOf(hasProperty("paramName", equalTo("lang")),
-                         hasProperty("httpMethods",
-                                     arrayContainingInAnyOrder("GET", "POST")),
-                         hasProperty("ignoreInvalidLocale", equalTo(true))));
+                allOf(hasProperty("paramName", equalTo("lang")),
+                        hasProperty("httpMethods", arrayContainingInAnyOrder("GET", "POST")),
+                        hasProperty("ignoreInvalidLocale", equalTo(true))));
     }
 
     @Test
-    void testCorrectMsgSourceBeanCreated(
-        @Autowired ReloadableResourceBundleMessageSource messageSource) {
-        assertThat("Wrong properties in message source bean.", messageSource,
-                   hasProperty("basenameSet", containsInAnyOrder(
-                       "classpath:/i18n/Messages",
-                       "classpath:/i18n/ValidationMessages")));
+    void testCorrectMsgSourceBeanCreated(@Autowired ReloadableResourceBundleMessageSource messageSource) {
+        assertThat("Wrong properties in message source bean.", messageSource, hasProperty("basenameSet",
+                containsInAnyOrder("classpath:/i18n/Messages", "classpath:/i18n/ValidationMessages")));
     }
 }

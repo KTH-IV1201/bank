@@ -1,6 +1,5 @@
 package se.kth.id1212.appserv.bank.presentation.acct;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -28,11 +27,11 @@ import static org.hamcrest.Matchers.hasProperty;
 
 @SpringJUnitWebConfig(initializers = ConfigFileApplicationContextInitializer.class)
 @EnableAutoConfiguration
-@ComponentScan(basePackages = {"se.kth.id1212.appserv.bank"})
-//@SpringBootTest can be used instead of @SpringJUnitWebConfig,
+@ComponentScan(basePackages = { "se.kth.id1212.appserv.bank" })
+// @SpringBootTest can be used instead of @SpringJUnitWebConfig,
 // @EnableAutoConfiguration and @ComponentScan, but are we using
 // JUnit5 in that case?
-@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, CreateAcctFormTest.class})
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class, CreateAcctFormTest.class })
 class CreateAcctFormTest implements TestExecutionListener {
     @Autowired
     private DbUtil dbUtil;
@@ -46,7 +45,7 @@ class CreateAcctFormTest implements TestExecutionListener {
     }
 
     private void enableCreatingEMFWhichIsNeededForTheApplicationContext()
-        throws SQLException, IOException, ClassNotFoundException {
+            throws SQLException, IOException, ClassNotFoundException {
         dbUtil.emptyDb();
     }
 
@@ -77,8 +76,7 @@ class CreateAcctFormTest implements TestExecutionListener {
 
     @Test
     void testEmptyHolder() {
-        testInvalidHolder("", "{create-acct.holder-name.length}",
-                              "{create-acct.holder-name.missing}");
+        testInvalidHolder("", "{create-acct.holder-name.length}", "{create-acct.holder-name.missing}");
     }
 
     @Test
@@ -88,9 +86,7 @@ class CreateAcctFormTest implements TestExecutionListener {
 
     @Test
     void testTooLongHolder() {
-        testInvalidHolder("abcdeabcdeabcdeabcdeabcdeabcdep", "{create-acct" +
-                                                             ".holder-name" +
-                                                             ".length}");
+        testInvalidHolder("abcdeabcdeabcdeabcdeabcdeabcdep", "{create-acct" + ".holder-name" + ".length}");
     }
 
     @Test
@@ -113,8 +109,7 @@ class CreateAcctFormTest implements TestExecutionListener {
         CreateAcctForm sut = new CreateAcctForm();
         sut.setHolderName(validHolder);
         sut.setBalance(validBalance);
-        Set<ConstraintViolation<CreateAcctForm>> result =
-            validator.validate(sut);
+        Set<ConstraintViolation<CreateAcctForm>> result = validator.validate(sut);
         assertThat(result, is(empty()));
     }
 
@@ -123,8 +118,7 @@ class CreateAcctFormTest implements TestExecutionListener {
         CreateAcctForm sut = new CreateAcctForm();
         sut.setHolderName(validHolder);
         sut.setBalance(validBalance);
-        Set<ConstraintViolation<CreateAcctForm>> result =
-            validator.validate(sut);
+        Set<ConstraintViolation<CreateAcctForm>> result = validator.validate(sut);
         assertThat(result, is(empty()));
     }
 
@@ -133,25 +127,20 @@ class CreateAcctFormTest implements TestExecutionListener {
         CreateAcctForm sut = new CreateAcctForm();
         sut.setHolderName(validHolder);
         sut.setBalance(invalidBalance);
-        Set<ConstraintViolation<CreateAcctForm>> result =
-            validator.validate(sut);
+        Set<ConstraintViolation<CreateAcctForm>> result = validator.validate(sut);
         assertThat(result.size(), is(1));
-        assertThat(result, hasItem(hasProperty("messageTemplate", equalTo(
-            expectedMsg))));
+        assertThat(result, hasItem(hasProperty("messageTemplate", equalTo(expectedMsg))));
     }
 
-    private void testInvalidHolder(String invalidHolder,
-                                   String... expectedMsgs) {
+    private void testInvalidHolder(String invalidHolder, String... expectedMsgs) {
         int validBalance = 1;
         CreateAcctForm sut = new CreateAcctForm();
         sut.setBalance(validBalance);
         sut.setHolderName(invalidHolder);
-        Set<ConstraintViolation<CreateAcctForm>> result =
-            validator.validate(sut);
+        Set<ConstraintViolation<CreateAcctForm>> result = validator.validate(sut);
         assertThat(result.size(), is(expectedMsgs.length));
         for (String expectedMsg : expectedMsgs) {
-            assertThat(result, hasItem(hasProperty("messageTemplate",
-                                                   equalTo(expectedMsg))));
+            assertThat(result, hasItem(hasProperty("messageTemplate", equalTo(expectedMsg))));
         }
     }
 }

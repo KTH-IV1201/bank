@@ -1,6 +1,5 @@
 package se.kth.id1212.appserv.bank.presentation.acct;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -25,15 +24,14 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 
 @SpringJUnitWebConfig(initializers = ConfigFileApplicationContextInitializer.class)
 @EnableAutoConfiguration
-@ComponentScan(basePackages = {"se.kth.id1212.appserv.bank"})
-//@SpringBootTest can be used instead of @SpringJUnitWebConfig,
+@ComponentScan(basePackages = { "se.kth.id1212.appserv.bank" })
+// @SpringBootTest can be used instead of @SpringJUnitWebConfig,
 // @EnableAutoConfiguration and @ComponentScan, but are we using
 // JUnit5 in that case?
-@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, DepositOrWithdrawFormTest.class})
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class, DepositOrWithdrawFormTest.class })
 class DepositOrWithdrawFormTest implements TestExecutionListener {
     @Autowired
     private DbUtil dbUtil;
@@ -47,7 +45,7 @@ class DepositOrWithdrawFormTest implements TestExecutionListener {
     }
 
     private void enableCreatingEMFWhichIsNeededForTheApplicationContext()
-        throws SQLException, IOException, ClassNotFoundException {
+            throws SQLException, IOException, ClassNotFoundException {
         dbUtil.emptyDb();
     }
 
@@ -70,18 +68,15 @@ class DepositOrWithdrawFormTest implements TestExecutionListener {
     void testCorrectAmt() {
         DepositOrWithdrawForm sut = new DepositOrWithdrawForm();
         sut.setAmount(1);
-        Set<ConstraintViolation<DepositOrWithdrawForm>> result =
-            validator.validate(sut);
+        Set<ConstraintViolation<DepositOrWithdrawForm>> result = validator.validate(sut);
         assertThat(result, is(empty()));
     }
 
     private void testInvalidAmt(Integer invalidAmt, String expectedMsg) {
         DepositOrWithdrawForm sut = new DepositOrWithdrawForm();
         sut.setAmount(invalidAmt);
-        Set<ConstraintViolation<DepositOrWithdrawForm>> result =
-            validator.validate(sut);
+        Set<ConstraintViolation<DepositOrWithdrawForm>> result = validator.validate(sut);
         assertThat(result.size(), is(1));
-        assertThat(result, hasItem(hasProperty("messageTemplate", equalTo(
-            expectedMsg))));
+        assertThat(result, hasItem(hasProperty("messageTemplate", equalTo(expectedMsg))));
     }
 }

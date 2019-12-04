@@ -71,15 +71,14 @@ public class Holder implements HolderDTO {
     private int optLockVersion;
 
     /**
-     * Creates a new instance with the specified name. A unique holder number
-     * will be set on the newly created instance.
+     * Creates a new instance with the specified name. A unique holder number will
+     * be set on the newly created instance.
      *
      * @param name The holder's name.
      */
     public Holder(String name) {
         this.name = name;
-        holderNo =
-            BeanFactory.getBean(BusinessIdGenerator.class).generateHolderNo();
+        holderNo = BeanFactory.getBean(BusinessIdGenerator.class).generateHolderNo();
     }
 
     /**
@@ -99,9 +98,8 @@ public class Holder implements HolderDTO {
     }
 
     /**
-     * Adds the specified account to the set of accounts owned by this holder.
-     * There is no limit on the number of accounts that can be owned by the same
-     * holder.
+     * Adds the specified account to the set of accounts owned by this holder. There
+     * is no limit on the number of accounts that can be owned by the same holder.
      *
      * @param acct The account to add to this holder's accounts.
      */
@@ -136,7 +134,7 @@ public class Holder implements HolderDTO {
         if (!(object instanceof Holder)) {
             return false;
         }
-        Holder other = (Holder)object;
+        Holder other = (Holder) object;
         return this.holderNo == other.holderNo;
     }
 

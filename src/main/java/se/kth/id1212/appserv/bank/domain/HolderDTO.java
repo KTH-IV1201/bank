@@ -26,8 +26,8 @@ package se.kth.id1212.appserv.bank.domain;
 import java.util.Set;
 
 /**
- * Defines all operation that can be performed on a {@link Holder} outside
- * the application and domain layers.
+ * Defines all operation that can be performed on a {@link Holder} outside the
+ * application and domain layers.
  */
 public interface HolderDTO {
     /**

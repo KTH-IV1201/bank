@@ -21,39 +21,35 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringJUnitWebConfig(initializers = ConfigFileApplicationContextInitializer
-        .class)
+@SpringJUnitWebConfig(initializers = ConfigFileApplicationContextInitializer.class)
 @EnableAutoConfiguration
-@ComponentScan(basePackages = {"se.kth.id1212.appserv.bank"})
-        //@SpringBootTest can be used instead of @SpringJUnitWebConfig,
-        // @EnableAutoConfiguration and @ComponentScan, but are we using
-        // JUnit5 in that case?
-@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, MainTest.class})
+@ComponentScan(basePackages = { "se.kth.id1212.appserv.bank" })
+// @SpringBootTest can be used instead of @SpringJUnitWebConfig,
+// @EnableAutoConfiguration and @ComponentScan, but are we using
+// JUnit5 in that case?
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class, MainTest.class })
 class MainTest implements TestExecutionListener {
-    @Autowired
-    private DbUtil dbUtil;
-    @Autowired
-    @Qualifier("getWebServerFactoryCustomizer")
-    private WebServerFactoryCustomizer<ConfigurableServletWebServerFactory>
-            factoryCustomizer;
+        @Autowired
+        private DbUtil dbUtil;
+        @Autowired
+        @Qualifier("getWebServerFactoryCustomizer")
+        private WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> factoryCustomizer;
 
-    @Override
-    public void beforeTestClass(TestContext testContext) throws SQLException, IOException, ClassNotFoundException {
-        dbUtil = testContext.getApplicationContext().getBean(DbUtil.class);
-        enableCreatingEMFWhichIsNeededForTheApplicationContext();
-    }
+        @Override
+        public void beforeTestClass(TestContext testContext) throws SQLException, IOException, ClassNotFoundException {
+                dbUtil = testContext.getApplicationContext().getBean(DbUtil.class);
+                enableCreatingEMFWhichIsNeededForTheApplicationContext();
+        }
 
-    private void enableCreatingEMFWhichIsNeededForTheApplicationContext()
-        throws SQLException, IOException, ClassNotFoundException {
-        dbUtil.emptyDb();
-    }
+        private void enableCreatingEMFWhichIsNeededForTheApplicationContext()
+                        throws SQLException, IOException, ClassNotFoundException {
+                dbUtil.emptyDb();
+        }
 
-    @Test
-    void testWebServerFactoryCustomizerCreation() {
-        TomcatServletWebServerFactory factory =
-                new TomcatServletWebServerFactory();
-        factoryCustomizer.customize(factory);
-        assertEquals("/bank", factory.getContextPath(),
-                     "Wrong context root in server factory");
-    }
+        @Test
+        void testWebServerFactoryCustomizerCreation() {
+                TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();
+                factoryCustomizer.customize(factory);
+                assertEquals("/bank", factory.getContextPath(), "Wrong context root in server factory");
+        }
 }

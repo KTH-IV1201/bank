@@ -36,12 +36,16 @@ import se.kth.id1212.appserv.bank.repository.AccountRepository;
 import se.kth.id1212.appserv.bank.repository.HolderRepository;
 
 /**
- * <p>This is the bank application class, which defines tasks that can be
- * performed by the domain layer.</p>
+ * <p>
+ * This is the bank application class, which defines tasks that can be performed
+ * by the domain layer.
+ * </p>
  *
- * <p>Transaction demarcation is defined by methods in this class, a
- * transaction starts when a method is called from the presentation layer, and ends (commit or rollback) when that
- * method returns.</p>
+ * <p>
+ * Transaction demarcation is defined by methods in this class, a transaction
+ * starts when a method is called from the presentation layer, and ends (commit
+ * or rollback) when that method returns.
+ * </p>
  */
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 @Service
@@ -52,8 +56,9 @@ public class BankService {
     private HolderRepository holderRepo;
 
     /**
-     * Convenience method that creates both holder and account in the same transaction, by calling first {@link
-     * #createHolder(String)} and then {@link #createAccount(HolderDTO, int)}.
+     * Convenience method that creates both holder and account in the same
+     * transaction, by calling first {@link #createHolder(String)} and then
+     * {@link #createAccount(HolderDTO, int)}.
      *
      * @param holderName The account holder's name.
      * @param balance    The initial balance.
@@ -66,13 +71,14 @@ public class BankService {
     }
 
     /**
-     * Creates an account owned by the specified account holder. Note that there is only one type of account in the
-     * bank.
+     * Creates an account owned by the specified account holder. Note that there is
+     * only one type of account in the bank.
      *
      * @param holder  The account holder.
      * @param balance The initial balance.
      * @return The newly created account.
-     * @throws IllegalBankTransactionException If the specified holder does not exist.
+     * @throws IllegalBankTransactionException If the specified holder does not
+     *                                         exist.
      */
     public AccountDTO createAccount(HolderDTO holder, int balance) throws IllegalBankTransactionException {
         Holder holderEntity = holderRepo.findHolderByHolderNo(holder.getHolderNo());
@@ -86,7 +92,8 @@ public class BankService {
      * Searches for the account with the specified account number.
      *
      * @param acctNo The number of the searched account.
-     * @return The account with the specified number, or null if no such account was found.
+     * @return The account with the specified number, or null if no such account was
+     *         found.
      */
     public AccountDTO findAccount(long acctNo) {
         return accountRepo.findAccountByAcctNo(acctNo);
@@ -97,7 +104,8 @@ public class BankService {
      *
      * @param acct The account to which to deposit.
      * @param amt  The amount to deposit.
-     * @throws IllegalBankTransactionException When attempting to deposit a negative or zero amount.
+     * @throws IllegalBankTransactionException When attempting to deposit a negative
+     *                                         or zero amount.
      */
     public void deposit(AccountDTO acct, int amt) throws IllegalBankTransactionException {
         if (acct == null) {
@@ -117,8 +125,10 @@ public class BankService {
      *
      * @param acct The account from which to withdraw.
      * @param amt  The amount to withdraw.
-     * @throws IllegalBankTransactionException When attempting to withdraw a negative or zero amount, or if withdrawal
-     *                                         would result in a negative balance.
+     * @throws IllegalBankTransactionException When attempting to withdraw a
+     *                                         negative or zero amount, or if
+     *                                         withdrawal would result in a negative
+     *                                         balance.
      */
     public void withdraw(AccountDTO acct, int amt) throws IllegalBankTransactionException {
         if (acct == null) {
@@ -144,24 +154,24 @@ public class BankService {
     }
 
     // /**
-    //  * Searches for the holder with the specified holder number.
-    //  *
-    //  * @param holderNo The number of the searched holder.
-    //  * @return The holder with the specified number, or null if no such holder
-    //  * was found.
-    //  */
+    // * Searches for the holder with the specified holder number.
+    // *
+    // * @param holderNo The number of the searched holder.
+    // * @return The holder with the specified number, or null if no such holder
+    // * was found.
+    // */
     // public HolderDTO findHolder(long holderNo) {
-    //     return holderRepo.findHolderByHolderNo(holderNo);
+    // return holderRepo.findHolderByHolderNo(holderNo);
     // }
     //
     // /**
-    //  * Searches for all holders with the specified name.
-    //  *
-    //  * @param holderName The name of the holder's to search for.
-    //  * @return A list containing all holders with the specified name. The list
-    //  * is empty if there are no such holders.
-    //  */
+    // * Searches for all holders with the specified name.
+    // *
+    // * @param holderName The name of the holder's to search for.
+    // * @return A list containing all holders with the specified name. The list
+    // * is empty if there are no such holders.
+    // */
     // public List<HolderDTO> findHolders(String holderName) {
-    //     return (List<HolderDTO>)(List)holderRepo.findHoldersByName(holderName);
+    // return (List<HolderDTO>)(List)holderRepo.findHoldersByName(holderName);
     // }
 }

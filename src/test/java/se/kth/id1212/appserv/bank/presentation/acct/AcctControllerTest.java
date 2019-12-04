@@ -48,12 +48,12 @@ import static se.kth.id1212.appserv.bank.presentation.PresentationTestHelper.sen
 
 @SpringJUnitWebConfig(initializers = ConfigFileApplicationContextInitializer.class)
 @EnableAutoConfiguration
-@ComponentScan(basePackages = {"se.kth.id1212.appserv.bank"})
-    //@SpringBootTest can be used instead of @SpringJUnitWebConfig,
-    // @EnableAutoConfiguration and @ComponentScan, but are we using
-    // JUnit5 in that case?
-@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, AcctControllerTest.class,
-                                     TransactionalTestExecutionListener.class})
+@ComponentScan(basePackages = { "se.kth.id1212.appserv.bank" })
+// @SpringBootTest can be used instead of @SpringJUnitWebConfig,
+// @EnableAutoConfiguration and @ComponentScan, but are we using
+// JUnit5 in that case?
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class, AcctControllerTest.class,
+        TransactionalTestExecutionListener.class })
 @Transactional
 @Commit
 class AcctControllerTest implements TestExecutionListener {
@@ -79,7 +79,7 @@ class AcctControllerTest implements TestExecutionListener {
     }
 
     private void enableCreatingEMFWhichIsNeededForTheApplicationContext()
-        throws SQLException, IOException, ClassNotFoundException {
+            throws SQLException, IOException, ClassNotFoundException {
         dbUtil.emptyDb();
     }
 
@@ -99,17 +99,15 @@ class AcctControllerTest implements TestExecutionListener {
     @Test
     void testCorrectViewForSelectAcctUrl() throws Exception {
         sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL).andExpect(status().isOk())
-                                                                    .andExpect(isSelectAcctPage());
+                .andExpect(isSelectAcctPage());
     }
 
     @Test
     void testCreateCorrectParams() throws Exception {
         sendPostRequest(mockMvc, AcctController.CREATE_ACCT_URL,
-                        addParam(addParam("balance", Integer.toString(acct.getBalance())), "holderName",
-                                 holder.getName()))
-            .andExpect(status().isOk())
-            .andExpect(isAcctPage())
-            .andExpect(doesNotContainElements("span.error"));
+                addParam(addParam("balance", Integer.toString(acct.getBalance())), "holderName", holder.getName()))
+                        .andExpect(status().isOk()).andExpect(isAcctPage())
+                        .andExpect(doesNotContainElements("span.error"));
         startNewTransaction();
         List<Account> acctsInDb = acctRepo.findAll();
         assertThat(acctsInDb.size(), is(1));
@@ -120,69 +118,61 @@ class AcctControllerTest implements TestExecutionListener {
     @Test
     void testCreateAndChangeLang() throws Exception {
         sendPostRequest(mockMvc, AcctController.CREATE_ACCT_URL,
-                        addParam(addParam("balance", "-1"), "holderName", "ab")).andExpect(status().isOk())
-                                                                                .andExpect(isSelectAcctPage());
+                addParam(addParam("balance", "-1"), "holderName", "ab")).andExpect(status().isOk())
+                        .andExpect(isSelectAcctPage());
         sendGetRequest(mockMvc, AcctController.CREATE_ACCT_URL + "?lang=en").andExpect(status().isOk())
-                                                                            .andExpect(isSelectAcctPage());
+                .andExpect(isSelectAcctPage());
     }
 
     @Test
     void testCreateAcctTooShortHolder() throws Exception {
         sendPostRequest(mockMvc, AcctController.CREATE_ACCT_URL, addParam(addParam("balance", "1"), "holderName", "1"))
-            .andExpect(status().isOk()).andExpect(isSelectAcctPage())
-            .andExpect(containsErrorMsg("create-acct-holder", "2"));
+                .andExpect(status().isOk()).andExpect(isSelectAcctPage())
+                .andExpect(containsErrorMsg("create-acct-holder", "2"));
     }
 
     @Test
     void testCreateAcctMissingHolder() throws Exception {
         sendPostRequest(mockMvc, AcctController.CREATE_ACCT_URL, addParam(addParam("balance", "1"), "holderName", ""))
-            .andExpect(status().isOk()).andExpect(isSelectAcctPage())
-            .andExpect(containsErrorMsg("create-acct-holder", "specify " + "account " + "holder"));
+                .andExpect(status().isOk()).andExpect(isSelectAcctPage())
+                .andExpect(containsErrorMsg("create-acct-holder", "specify " + "account " + "holder"));
     }
 
     @Test
     void testCreateAcctWrongCharInHolder() throws Exception {
         sendPostRequest(mockMvc, AcctController.CREATE_ACCT_URL,
-                        addParam(addParam("balance", "1"), "holderName", "123")).andExpect(status().isOk())
-                                                                                .andExpect(isSelectAcctPage())
-                                                                                .andExpect(containsErrorMsg(
-                                                                                    "create-acct-holder",
-                                                                                    "only letters"));
+                addParam(addParam("balance", "1"), "holderName", "123")).andExpect(status().isOk())
+                        .andExpect(isSelectAcctPage())
+                        .andExpect(containsErrorMsg("create-acct-holder", "only letters"));
     }
 
     @Test
     void testCreateAcctTooLongHolder() throws Exception {
         sendPostRequest(mockMvc, AcctController.CREATE_ACCT_URL,
-                        addParam(addParam("balance", "1"), "holderName", "1234567890123456789012345678901"))
-            .andExpect(status().isOk()).andExpect(isSelectAcctPage())
-            .andExpect(containsErrorMsg("create-acct-holder", "30"));
+                addParam(addParam("balance", "1"), "holderName", "1234567890123456789012345678901"))
+                        .andExpect(status().isOk()).andExpect(isSelectAcctPage())
+                        .andExpect(containsErrorMsg("create-acct-holder", "30"));
     }
 
     @Test
     void testCreateAcctMissingBalance() throws Exception {
         sendPostRequest(mockMvc, AcctController.CREATE_ACCT_URL, addParam("holderName", "12"))
-            .andExpect(status().isOk()).andExpect(isSelectAcctPage())
-            .andExpect(containsErrorMsg("create-balance", "specify balance"));
+                .andExpect(status().isOk()).andExpect(isSelectAcctPage())
+                .andExpect(containsErrorMsg("create-balance", "specify balance"));
     }
 
     @Test
     void testCreateAcctWrongCharInBalance() throws Exception {
         sendPostRequest(mockMvc, AcctController.CREATE_ACCT_URL,
-                        addParam(addParam("balance", "a"), "holderName", "abc")).andExpect(status().isOk())
-                                                                                .andExpect(isSelectAcctPage())
-                                                                                .andExpect(
-                                                                                    containsErrorMsg("create-balance",
-                                                                                                     "only numbers"));
+                addParam(addParam("balance", "a"), "holderName", "abc")).andExpect(status().isOk())
+                        .andExpect(isSelectAcctPage()).andExpect(containsErrorMsg("create-balance", "only numbers"));
     }
 
     @Test
     void testCreateAcctNegativeBalance() throws Exception {
         sendPostRequest(mockMvc, AcctController.CREATE_ACCT_URL,
-                        addParam(addParam("balance", "-1"), "holderName", "12")).andExpect(status().isOk())
-                                                                                .andExpect(isSelectAcctPage())
-                                                                                .andExpect(
-                                                                                    containsErrorMsg("create-balance",
-                                                                                                     "zero or greater"));
+                addParam(addParam("balance", "-1"), "holderName", "12")).andExpect(status().isOk())
+                        .andExpect(isSelectAcctPage()).andExpect(containsErrorMsg("create-balance", "zero or greater"));
     }
 
     @Test
@@ -190,9 +180,7 @@ class AcctControllerTest implements TestExecutionListener {
         acctRepo.save(acct);
         startNewTransaction();
         sendPostRequest(mockMvc, AcctController.FIND_ACCT_URL, addParam("number", Long.toString(acct.getAcctNo())))
-            .andExpect(status().isOk())
-            .andExpect(isAcctPage())
-            .andExpect(doesNotContainElements("span.error"));
+                .andExpect(status().isOk()).andExpect(isAcctPage()).andExpect(doesNotContainElements("span.error"));
         AccountDTO foundAcct = acctRepo.findAccountByAcctNo(acct.getAcctNo());
         assertThat(foundAcct.getAcctNo(), is(acct.getAcctNo()));
     }
@@ -200,44 +188,38 @@ class AcctControllerTest implements TestExecutionListener {
     @Test
     void testFindNonExistingAcct() throws Exception {
         sendPostRequest(mockMvc, AcctController.FIND_ACCT_URL, addParam("number", Long.toString(acct.getAcctNo())))
-            .andExpect(status().isOk())
-            .andExpect(isErrorPage())
-            .andExpect(containsElements("main h1:contains(No Account Found)"));
+                .andExpect(status().isOk()).andExpect(isErrorPage())
+                .andExpect(containsElements("main h1:contains(No Account Found)"));
     }
 
     @Test
     void testFindAndChangeLang() throws Exception {
         sendPostRequest(mockMvc, AcctController.FIND_ACCT_URL, addParam("number", "a")).andExpect(status().isOk())
-                                                                                       .andExpect(isSelectAcctPage());
+                .andExpect(isSelectAcctPage());
         sendGetRequest(mockMvc, AcctController.FIND_ACCT_URL + "?lang=en").andExpect(status().isOk())
-                                                                          .andExpect(isSelectAcctPage());
+                .andExpect(isSelectAcctPage());
     }
 
     @Test
     void testFindAcctMissingAcctNo() throws Exception {
         sendPostRequest(mockMvc, AcctController.FIND_ACCT_URL).andExpect(status().isOk()).andExpect(isSelectAcctPage())
-                                                              .andExpect(containsErrorMsg("search-acct-number",
-                                                                                          "specify " + "account " +
-                                                                                          "number"));
+                .andExpect(containsErrorMsg("search-acct-number", "specify " + "account " + "number"));
     }
 
     @Test
     void testFindAcctWrongCharInAcctNo() throws Exception {
         sendPostRequest(mockMvc, AcctController.FIND_ACCT_URL, addParam("number", "a")).andExpect(status().isOk())
-                                                                                       .andExpect(isSelectAcctPage())
-                                                                                       .andExpect(containsErrorMsg(
-                                                                                           "search-acct-number",
-                                                                                           "only numbers"));
+                .andExpect(isSelectAcctPage()).andExpect(containsErrorMsg("search-acct-number", "only numbers"));
     }
 
     @Test
     void testDepositCorrectParams() throws Exception {
         int amtToDeposit = 1;
         HttpSession session = createSessionWithContrThatHasAcct();
-        sendPostRequest(mockMvc, AcctController.DEPOSIT_URL, session, addParam("amount", Integer.toString(amtToDeposit)))
-            .andExpect(status().isOk())
-            .andExpect(isAcctPage())
-            .andExpect(containsElements("span:contains(balance)+span:contains(" + (acct.getBalance() + amtToDeposit) + ")"));
+        sendPostRequest(mockMvc, AcctController.DEPOSIT_URL, session,
+                addParam("amount", Integer.toString(amtToDeposit))).andExpect(status().isOk()).andExpect(isAcctPage())
+                        .andExpect(containsElements(
+                                "span:contains(balance)+span:contains(" + (acct.getBalance() + amtToDeposit) + ")"));
         startNewTransaction();
         List<Account> acctsInDb = acctRepo.findAll();
         assertThat(acctsInDb.size(), is(1));
@@ -248,9 +230,8 @@ class AcctControllerTest implements TestExecutionListener {
     void testDepositWhenNoCurrentAcct() throws Exception {
         int amtToDeposit = 1;
         sendPostRequest(mockMvc, AcctController.DEPOSIT_URL, addParam("amount", Integer.toString(amtToDeposit)))
-            .andExpect(status().isInternalServerError())
-            .andExpect(isErrorPage())
-            .andExpect(containsElements("main h1:contains(Deposit Failed)"));
+                .andExpect(status().isInternalServerError()).andExpect(isErrorPage())
+                .andExpect(containsElements("main h1:contains(Deposit Failed)"));
         startNewTransaction();
         List<Account> acctsInDb = acctRepo.findAll();
         assertThat(acctsInDb, empty());
@@ -260,41 +241,40 @@ class AcctControllerTest implements TestExecutionListener {
     void testDepositAndChangeLang() throws Exception {
         HttpSession session = createSessionWithContrThatHasAcct();
         sendPostRequest(mockMvc, AcctController.DEPOSIT_URL, session, addParam("amount", "a"))
-            .andExpect(status().isOk()).andExpect(isAcctPage());
+                .andExpect(status().isOk()).andExpect(isAcctPage());
         sendGetRequest(mockMvc, AcctController.DEPOSIT_URL + "?lang=en", session).andExpect(status().isOk())
-                                                                                 .andExpect(isAcctPage());
+                .andExpect(isAcctPage());
     }
 
     @Test
     void testDepositMissingAmt() throws Exception {
         HttpSession session = createSessionWithContrThatHasAcct();
         sendPostRequest(mockMvc, AcctController.DEPOSIT_URL, session).andExpect(status().isOk()).andExpect(isAcctPage())
-                                                                     .andExpect(containsErrorMsg("deposit-amt",
-                                                                                                 "specify amount"));
+                .andExpect(containsErrorMsg("deposit-amt", "specify amount"));
     }
 
     @Test
     void testDepositWrongCharInAmt() throws Exception {
         HttpSession session = createSessionWithContrThatHasAcct();
         sendPostRequest(mockMvc, AcctController.DEPOSIT_URL, session, addParam("amount", "a"))
-            .andExpect(status().isOk()).andExpect(isAcctPage())
-            .andExpect(containsErrorMsg("deposit-amt", "only numbers"));
+                .andExpect(status().isOk()).andExpect(isAcctPage())
+                .andExpect(containsErrorMsg("deposit-amt", "only numbers"));
     }
 
     @Test
     void testDepositNegAmt() throws Exception {
         HttpSession session = createSessionWithContrThatHasAcct();
         sendPostRequest(mockMvc, AcctController.DEPOSIT_URL, session, addParam("amount", "-1"))
-            .andExpect(status().isOk()).andExpect(isAcctPage())
-            .andExpect(containsErrorMsg("deposit-amt", "greater than zero"));
+                .andExpect(status().isOk()).andExpect(isAcctPage())
+                .andExpect(containsErrorMsg("deposit-amt", "greater than zero"));
     }
 
     @Test
     void testDepositZeroAmt() throws Exception {
         HttpSession session = createSessionWithContrThatHasAcct();
         sendPostRequest(mockMvc, AcctController.DEPOSIT_URL, session, addParam("amount", "0"))
-            .andExpect(status().isOk()).andExpect(isAcctPage())
-            .andExpect(containsErrorMsg("deposit-amt", "greater than zero"));
+                .andExpect(status().isOk()).andExpect(isAcctPage())
+                .andExpect(containsErrorMsg("deposit-amt", "greater than zero"));
     }
 
     @Test
@@ -302,10 +282,9 @@ class AcctControllerTest implements TestExecutionListener {
         int amtToWithdraw = 1;
         HttpSession session = createSessionWithContrThatHasAcct();
         sendPostRequest(mockMvc, AcctController.WITHDRAW_URL, session,
-                        addParam("amount", Integer.toString(amtToWithdraw)))
-            .andExpect(status().isOk())
-            .andExpect(isAcctPage())
-            .andExpect(containsElements("span:contains(balance)+span:contains(" + (acct.getBalance() - amtToWithdraw) + ")"));
+                addParam("amount", Integer.toString(amtToWithdraw))).andExpect(status().isOk()).andExpect(isAcctPage())
+                        .andExpect(containsElements(
+                                "span:contains(balance)+span:contains(" + (acct.getBalance() - amtToWithdraw) + ")"));
         startNewTransaction();
         List<Account> acctsInDb = acctRepo.findAll();
         assertThat(acctsInDb.size(), is(1));
@@ -317,10 +296,8 @@ class AcctControllerTest implements TestExecutionListener {
         int amtToWithdraw = acct.getBalance() + 1;
         HttpSession session = createSessionWithContrThatHasAcct();
         sendPostRequest(mockMvc, AcctController.WITHDRAW_URL, session,
-                        addParam("amount", Integer.toString(amtToWithdraw)))
-            .andExpect(status().isInternalServerError())
-            .andExpect(isErrorPage())
-            .andExpect(containsElements("main h1:contains(Withdrawal Failed)"));
+                addParam("amount", Integer.toString(amtToWithdraw))).andExpect(status().isInternalServerError())
+                        .andExpect(isErrorPage()).andExpect(containsElements("main h1:contains(Withdrawal Failed)"));
         startNewTransaction();
         List<Account> acctsInDb = acctRepo.findAll();
         assertThat(acctsInDb.size(), is(1));
@@ -331,9 +308,8 @@ class AcctControllerTest implements TestExecutionListener {
     void testWithdrawWhenNoCurrentAcct() throws Exception {
         int amtToWithdraw = 1;
         sendPostRequest(mockMvc, AcctController.WITHDRAW_URL, addParam("amount", Integer.toString(amtToWithdraw)))
-            .andExpect(status().isInternalServerError())
-            .andExpect(isErrorPage())
-            .andExpect(containsElements("main h1:contains(Withdrawal Failed)"));
+                .andExpect(status().isInternalServerError()).andExpect(isErrorPage())
+                .andExpect(containsElements("main h1:contains(Withdrawal Failed)"));
         startNewTransaction();
         List<Account> acctsInDb = acctRepo.findAll();
         assertThat(acctsInDb, empty());
@@ -343,55 +319,53 @@ class AcctControllerTest implements TestExecutionListener {
     void testWithdrawAndChangeLang() throws Exception {
         HttpSession session = createSessionWithContrThatHasAcct();
         sendPostRequest(mockMvc, AcctController.WITHDRAW_URL, session, addParam("amount", "a"))
-            .andExpect(status().isOk()).andExpect(isAcctPage());
+                .andExpect(status().isOk()).andExpect(isAcctPage());
         sendGetRequest(mockMvc, AcctController.WITHDRAW_URL + "?lang=en", session).andExpect(status().isOk())
-                                                                                  .andExpect(isAcctPage());
+                .andExpect(isAcctPage());
     }
 
     @Test
     void testWithdrawMissingAmt() throws Exception {
         HttpSession session = createSessionWithContrThatHasAcct();
         sendPostRequest(mockMvc, AcctController.WITHDRAW_URL, session).andExpect(status().isOk())
-                                                                      .andExpect(isAcctPage()).andExpect(
-            containsErrorMsg("withdraw-amt", "specify amount"));
+                .andExpect(isAcctPage()).andExpect(containsErrorMsg("withdraw-amt", "specify amount"));
     }
 
     @Test
     void testWithdrawWrongCharInAmt() throws Exception {
         HttpSession session = createSessionWithContrThatHasAcct();
         sendPostRequest(mockMvc, AcctController.WITHDRAW_URL, session, addParam("amount", "a"))
-            .andExpect(status().isOk()).andExpect(isAcctPage())
-            .andExpect(containsErrorMsg("withdraw-amt", "only numbers"));
+                .andExpect(status().isOk()).andExpect(isAcctPage())
+                .andExpect(containsErrorMsg("withdraw-amt", "only numbers"));
     }
 
     @Test
     void testWithdrawNegAmt() throws Exception {
         HttpSession session = createSessionWithContrThatHasAcct();
         sendPostRequest(mockMvc, AcctController.WITHDRAW_URL, session, addParam("amount", "-1"))
-            .andExpect(status().isOk()).andExpect(isAcctPage())
-            .andExpect(containsErrorMsg("withdraw-amt", "greater than zero"));
+                .andExpect(status().isOk()).andExpect(isAcctPage())
+                .andExpect(containsErrorMsg("withdraw-amt", "greater than zero"));
     }
 
     @Test
     void testWithdrawZeroAmt() throws Exception {
         HttpSession session = createSessionWithContrThatHasAcct();
         sendPostRequest(mockMvc, AcctController.WITHDRAW_URL, session, addParam("amount", "0"))
-            .andExpect(status().isOk()).andExpect(isAcctPage())
-            .andExpect(containsErrorMsg("withdraw-amt", "greater than zero"));
+                .andExpect(status().isOk()).andExpect(isAcctPage())
+                .andExpect(containsErrorMsg("withdraw-amt", "greater than zero"));
     }
 
     @Test
     void testCorrectViewForAcctUrl() throws Exception {
         HttpSession session = createSessionWithContrThatHasAcct();
         sendGetRequest(mockMvc, AcctController.ACCT_PAGE_URL, session).andExpect(status().isOk())
-                                                                      .andExpect(isAcctPage());
+                .andExpect(isAcctPage());
     }
 
     private HttpSession createSessionWithContrThatHasAcct() throws Exception {
         return sendPostRequest(mockMvc, AcctController.CREATE_ACCT_URL,
-                               addParam(addParam("balance", Integer.toString(acct.getBalance())),
-                                                 "holderName", holder.getName()))
-            .andReturn().getRequest().getSession();
+                addParam(addParam("balance", Integer.toString(acct.getBalance())), "holderName", holder.getName()))
+                        .andReturn().getRequest().getSession();
     }
 
     private ResultMatcher containsErrorMsg(String idForErrorElem, String errorMsg) {

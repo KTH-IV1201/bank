@@ -97,7 +97,7 @@ public class AcctController {
      */
     @PostMapping("/" + CREATE_ACCT_URL)
     public String createAccount(@Valid CreateAcctForm createAcctForm, BindingResult bindingResult, Model model)
-        throws IllegalBankTransactionException {
+            throws IllegalBankTransactionException {
         LOGGER.trace("Post of account creation data.");
         LOGGER.trace("Form data: " + createAcctForm);
         if (bindingResult.hasErrors()) {
@@ -122,11 +122,12 @@ public class AcctController {
     }
 
     /**
-     * Dummy method in case the user changes locale while the create acct view is displayed.
+     * Dummy method in case the user changes locale while the create acct view is
+     * displayed.
      */
     @GetMapping("/" + CREATE_ACCT_URL)
     public String getMetCreateAccount(@Valid CreateAcctForm createAcctForm, BindingResult bindingResult,
-                                      FindAcctForm findAcctForm, Model model) {
+            FindAcctForm findAcctForm, Model model) {
         LOGGER.trace("Get of account creation data.");
         LOGGER.trace("Form data: " + createAcctForm);
         return SELECT_ACCT_PAGE_URL;
@@ -138,8 +139,8 @@ public class AcctController {
      * @param findAcctForm  Content of the find account form.
      * @param bindingResult Validation result for the find account form.
      * @param model         Model objects used by the account page.
-     * @return The account page url if validation succeeds and account is found. Returns the error page url if account
-     * is not found
+     * @return The account page url if validation succeeds and account is found.
+     *         Returns the error page url if account is not found
      */
     @PostMapping("/" + FIND_ACCT_URL)
     public String findAccount(@Valid FindAcctForm findAcctForm, BindingResult bindingResult, Model model) {
@@ -158,11 +159,12 @@ public class AcctController {
     }
 
     /**
-     * Dummy method in case the user changes locale while the find acct view is displayed.
+     * Dummy method in case the user changes locale while the find acct view is
+     * displayed.
      */
     @GetMapping("/" + FIND_ACCT_URL)
     public String getMetFindAccount(@Valid FindAcctForm findAcctForm, BindingResult bindingResult,
-                                    CreateAcctForm createAcctForm) {
+            CreateAcctForm createAcctForm) {
         LOGGER.trace("Get of account search data.");
         LOGGER.trace("Form data: " + findAcctForm);
         return SELECT_ACCT_PAGE_URL;
@@ -190,7 +192,7 @@ public class AcctController {
      */
     @PostMapping("/" + DEPOSIT_URL)
     public String deposit(@Valid @ModelAttribute(DEPOSIT_FORM_OBJ_NAME) DepositOrWithdrawForm depositForm,
-                          BindingResult bindingResult, Model model) throws IllegalBankTransactionException {
+            BindingResult bindingResult, Model model) throws IllegalBankTransactionException {
         LOGGER.trace("Post of deposit data.");
         LOGGER.trace("Form data: " + depositForm);
         if (!bindingResult.hasErrors()) {
@@ -206,11 +208,12 @@ public class AcctController {
     }
 
     /**
-     * Dummy method in case the user changes locale while the deposit view is displayed.
+     * Dummy method in case the user changes locale while the deposit view is
+     * displayed.
      */
     @GetMapping("/" + DEPOSIT_URL)
     public String getMetDeposit(@Valid @ModelAttribute(DEPOSIT_FORM_OBJ_NAME) DepositOrWithdrawForm depositForm,
-                                BindingResult bindingResult, Model model) {
+            BindingResult bindingResult, Model model) {
         LOGGER.trace("Get of deposit data.");
         LOGGER.trace("Form data: " + depositForm);
         return showAcctPage(model, null, new DepositOrWithdrawForm());
@@ -226,7 +229,7 @@ public class AcctController {
      */
     @PostMapping("/" + WITHDRAW_URL)
     public String withdraw(@Valid @ModelAttribute(WITHDRAW_FORM_OBJ_NAME) DepositOrWithdrawForm withdrawForm,
-                           BindingResult bindingResult, Model model) throws IllegalBankTransactionException {
+            BindingResult bindingResult, Model model) throws IllegalBankTransactionException {
         LOGGER.trace("Post of withdraw data.");
         LOGGER.trace("Form data: " + withdrawForm);
         if (!bindingResult.hasErrors()) {
@@ -238,11 +241,12 @@ public class AcctController {
     }
 
     /**
-     * Dummy method in case the user changes locale while the withdraw view is displayed.
+     * Dummy method in case the user changes locale while the withdraw view is
+     * displayed.
      */
     @GetMapping("/" + WITHDRAW_URL)
     public String getMetWithdraw(@Valid @ModelAttribute(WITHDRAW_FORM_OBJ_NAME) DepositOrWithdrawForm withdrawForm,
-                                 BindingResult bindingResult, Model model) {
+            BindingResult bindingResult, Model model) {
         LOGGER.trace("Get of withdraw data.");
         LOGGER.trace("Form data: " + withdrawForm);
         return showAcctPage(model, new DepositOrWithdrawForm(), null);

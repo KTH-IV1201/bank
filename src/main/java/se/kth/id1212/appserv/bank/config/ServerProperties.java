@@ -33,8 +33,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "se.kth.id1212.bank.server")
 public class ServerProperties {
-    private static final Logger LOGGER = LoggerFactory.getLogger(
-            ServerProperties.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServerProperties.class);
     private String contextRoot;
 
     /**

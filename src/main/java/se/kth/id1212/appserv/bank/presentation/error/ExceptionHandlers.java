@@ -69,12 +69,13 @@ public class ExceptionHandlers implements ErrorController {
             model.addAttribute(ERROR_TYPE_KEY, WITHDRAWAL_FAILED);
         } else {
             model.addAttribute(ERROR_TYPE_KEY, GENERIC_ERROR);
-        } return ERROR_PAGE_URL;
+        }
+        return ERROR_PAGE_URL;
     }
 
     /**
-     * The most generic exception handler, will be used if there is not a more specific handler for the exception that
-     * shall be handled.
+     * The most generic exception handler, will be used if there is not a more
+     * specific handler for the exception that shall be handled.
      *
      * @return The generic error page.
      */
@@ -96,8 +97,8 @@ public class ExceptionHandlers implements ErrorController {
 
     @GetMapping("/" + ERROR_PATH)
     public String handleHttpError(HttpServletRequest request, HttpServletResponse response, Model model) {
-        LOGGER
-            .debug("Http error handler got Http status: {}", request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
+        LOGGER.debug("Http error handler got Http status: {}",
+                request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
         String statusCode = extractHttpStatusCode(request);
         model.addAttribute(ERROR_TYPE_KEY, statusCode);
         response.setStatus(Integer.parseInt(statusCode));

@@ -38,9 +38,9 @@ class BeanFactory implements ApplicationContextAware {
     private static ApplicationContext context;
 
     /**
-     * Retrieves a bean of the specified class from the application context.
-     * This method is intended for use only by JPA entities, other classes
-     * should use @Autowired instead.
+     * Retrieves a bean of the specified class from the application context. This
+     * method is intended for use only by JPA entities, other classes should
+     * use @Autowired instead.
      *
      * @param beanClass The type of the bean to retrieve.
      */

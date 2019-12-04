@@ -1,6 +1,5 @@
 package se.kth.id1212.appserv.bank.presentation.acct;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +28,11 @@ import static se.kth.id1212.appserv.bank.presentation.PresentationTestHelper.sen
 
 @SpringJUnitWebConfig(initializers = ConfigFileApplicationContextInitializer.class)
 @EnableAutoConfiguration
-@ComponentScan(basePackages = {"se.kth.id1212.appserv.bank"})
-    //@SpringBootTest can be used instead of @SpringJUnitWebConfig,
-    // @EnableAutoConfiguration and @ComponentScan, but are we using
-    // JUnit5 in that case?
-@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, ThymeleafTemplateTest.class})
+@ComponentScan(basePackages = { "se.kth.id1212.appserv.bank" })
+// @SpringBootTest can be used instead of @SpringJUnitWebConfig,
+// @EnableAutoConfiguration and @ComponentScan, but are we using
+// JUnit5 in that case?
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class, ThymeleafTemplateTest.class })
 class ThymeleafTemplateTest implements TestExecutionListener {
     @Autowired
     private DbUtil dbUtil;
@@ -48,7 +47,7 @@ class ThymeleafTemplateTest implements TestExecutionListener {
     }
 
     private void enableCreatingEMFWhichIsNeededForTheApplicationContext()
-        throws SQLException, IOException, ClassNotFoundException {
+            throws SQLException, IOException, ClassNotFoundException {
         dbUtil.emptyDb();
     }
 
@@ -59,67 +58,53 @@ class ThymeleafTemplateTest implements TestExecutionListener {
 
     @Test
     void testHeadingIsIncluded() throws Exception {
-        sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL)
-            .andExpect(status().isOk())
-            .andExpect(containsElements("head link[href$=bank.css]"));
+        sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL).andExpect(status().isOk())
+                .andExpect(containsElements("head link[href$=bank.css]"));
     }
 
     @Test
     void testHeaderIsIncluded() throws Exception {
-        sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL)
-            .andExpect(status().isOk())
-            .andExpect(containsElements("header img[src$=/logo.png]"));
+        sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL).andExpect(status().isOk())
+                .andExpect(containsElements("header img[src$=/logo.png]"));
     }
 
     @Test
     void testNavigationIsIncluded() throws Exception {
-        sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL)
-            .andExpect(status().isOk())
-            .andExpect(containsElements("nav>ul>li>a"));
+        sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL).andExpect(status().isOk())
+                .andExpect(containsElements("nav>ul>li>a"));
     }
 
     @Test
     void testFooterIsIncluded() throws Exception {
-        sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL)
-            .andExpect(status().isOk())
-            .andExpect(containsElements("footer"));
+        sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL).andExpect(status().isOk())
+                .andExpect(containsElements("footer"));
     }
 
     @Test
     void testContentIsIncluded() throws Exception {
-        sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL)
-            .andExpect(status().isOk())
-            .andExpect(containsElements("main>section>h1:contains(Account)"));
+        sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL).andExpect(status().isOk())
+                .andExpect(containsElements("main>section>h1:contains(Account)"));
     }
 
     @Test
     void testSelectAccountPageHasAllFragments() throws Exception {
-        sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL)
-            .andExpect(status().isOk())
-            .andExpect(containsElements("head", "header", "nav", "main",
-                                        "footer"));
+        sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL).andExpect(status().isOk())
+                .andExpect(containsElements("head", "header", "nav", "main", "footer"));
     }
 
     @Test
     void testAccountPageHasAllFragments() throws Exception {
-        HttpSession session = sendPostRequest(mockMvc,
-            AcctController.CREATE_ACCT_URL,
-                        addParam(addParam("balance", "1"), "holderName",
-                                 "ab")).andReturn().getRequest()
-                                       .getSession();
-        sendGetRequest(mockMvc, AcctController.ACCT_PAGE_URL, session)
-            .andExpect(status().isOk())
-            .andExpect(containsElements("head", "header", "nav", "main",
-                                        "footer"));
+        HttpSession session = sendPostRequest(mockMvc, AcctController.CREATE_ACCT_URL,
+                addParam(addParam("balance", "1"), "holderName", "ab")).andReturn().getRequest().getSession();
+        sendGetRequest(mockMvc, AcctController.ACCT_PAGE_URL, session).andExpect(status().isOk())
+                .andExpect(containsElements("head", "header", "nav", "main", "footer"));
     }
 
     @Test
     void testCorrectLanguageIsUsed() throws Exception {
-        sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL)
-            .andExpect(status().isOk())
-            .andExpect(containsElements("footer>span:contains(Phone)"));
-        sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL + "?lang=sv")
-            .andExpect(status().isOk())
-            .andExpect(containsElements("footer>span:contains(Telefon)"));
+        sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL).andExpect(status().isOk())
+                .andExpect(containsElements("footer>span:contains(Phone)"));
+        sendGetRequest(mockMvc, AcctController.SELECT_ACCT_PAGE_URL + "?lang=sv").andExpect(status().isOk())
+                .andExpect(containsElements("footer>span:contains(Telefon)"));
     }
 }

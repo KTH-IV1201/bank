@@ -1,6 +1,5 @@
 package se.kth.id1212.appserv.bank.presentation.acct;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -28,11 +27,11 @@ import static org.hamcrest.Matchers.hasProperty;
 
 @SpringJUnitWebConfig(initializers = ConfigFileApplicationContextInitializer.class)
 @EnableAutoConfiguration
-@ComponentScan(basePackages = {"se.kth.id1212.appserv.bank"})
-//@SpringBootTest can be used instead of @SpringJUnitWebConfig,
+@ComponentScan(basePackages = { "se.kth.id1212.appserv.bank" })
+// @SpringBootTest can be used instead of @SpringJUnitWebConfig,
 // @EnableAutoConfiguration and @ComponentScan, but are we using
 // JUnit5 in that case?
-@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, FindAcctFormTest.class})
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class, FindAcctFormTest.class })
 class FindAcctFormTest implements TestExecutionListener {
     @Autowired
     private DbUtil dbUtil;
@@ -46,7 +45,7 @@ class FindAcctFormTest implements TestExecutionListener {
     }
 
     private void enableCreatingEMFWhichIsNeededForTheApplicationContext()
-        throws SQLException, IOException, ClassNotFoundException {
+            throws SQLException, IOException, ClassNotFoundException {
         dbUtil.emptyDb();
     }
 
@@ -59,18 +58,15 @@ class FindAcctFormTest implements TestExecutionListener {
     void testCorrectNo() {
         FindAcctForm sut = new FindAcctForm();
         sut.setNumber(1L);
-        Set<ConstraintViolation<FindAcctForm>> result =
-            validator.validate(sut);
+        Set<ConstraintViolation<FindAcctForm>> result = validator.validate(sut);
         assertThat(result, is(empty()));
     }
 
     private void testInvalidNo(Long invalidNo, String expectedMsg) {
         FindAcctForm sut = new FindAcctForm();
         sut.setNumber(invalidNo);
-        Set<ConstraintViolation<FindAcctForm>> result =
-            validator.validate(sut);
+        Set<ConstraintViolation<FindAcctForm>> result = validator.validate(sut);
         assertThat(result.size(), is(1));
-        assertThat(result, hasItem(hasProperty("messageTemplate", equalTo(
-            expectedMsg))));
+        assertThat(result, hasItem(hasProperty("messageTemplate", equalTo(expectedMsg))));
     }
 }

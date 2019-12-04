@@ -39,12 +39,12 @@ import static org.hamcrest.Matchers.not;
 
 @SpringJUnitWebConfig(initializers = ConfigFileApplicationContextInitializer.class)
 @EnableAutoConfiguration
-@ComponentScan(basePackages = {"se.kth.id1212.appserv.bank"})
-//@SpringBootTest can be used instead of @SpringJUnitWebConfig,
+@ComponentScan(basePackages = { "se.kth.id1212.appserv.bank" })
+// @SpringBootTest can be used instead of @SpringJUnitWebConfig,
 // @EnableAutoConfiguration and @ComponentScan, but are we using
 // JUnit5 in that case?
-@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, AccountTest.class,
-                                     TransactionalTestExecutionListener.class})
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class, AccountTest.class,
+        TransactionalTestExecutionListener.class })
 @NotThreadSafe
 @Transactional
 @Commit
@@ -67,7 +67,7 @@ class AccountTest implements TestExecutionListener {
     }
 
     private void enableCreatingEMFWhichIsNeededForTheApplicationContext()
-        throws SQLException, IOException, ClassNotFoundException {
+            throws SQLException, IOException, ClassNotFoundException {
         dbUtil.emptyDb();
     }
 
@@ -143,8 +143,8 @@ class AccountTest implements TestExecutionListener {
             startNewTransaction();
             repository.save(acct);
         } catch (TransactionSystemException exc) {
-            Set<ConstraintViolation<?>> result =
-                ((ConstraintViolationException)exc.getCause().getCause()).getConstraintViolations();
+            Set<ConstraintViolation<?>> result = ((ConstraintViolationException) exc.getCause().getCause())
+                    .getConstraintViolations();
             assertThat(result.size(), is(expectedMsgs.length));
             for (String expectedMsg : expectedMsgs) {
                 assertThat(result, hasItem(hasProperty("messageTemplate", equalTo(expectedMsg))));

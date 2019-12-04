@@ -48,15 +48,14 @@ public class Main {
      * @param args There are no command line parameters.
      */
     public static void main(String[] args) {
-        LOGGER.debug("log level is set after app.run(args), the default " +
-                     "level (debug) is used here: " + LOGGER.isTraceEnabled());
+        LOGGER.debug("log level is set after app.run(args), the default " + "level (debug) is used here: "
+                + LOGGER.isTraceEnabled());
         SpringApplication app = new SpringApplication(Main.class);
         app.setBanner((environment, sourceClass, out) -> {
-            out.println("\n>>>>>>>>>>>>>> RUN IN TERMINAL TO SEE FRAMEWORK" +
-                        "VERSIONS. USE 'mvn spring-boot:run' TO SHOW VERSIONS" +
-                        " AND START. USE FOR EXAMPLE 'mvn dependency:resolve" +
-                        " -Dsort' TO JUST SEE DEPENDENCIES. " +
-                        "<<<<<<<<<<<<<<<<<\n");
+            out.println("\n>>>>>>>>>>>>>> RUN IN TERMINAL TO SEE FRAMEWORK"
+                    + "VERSIONS. USE 'mvn spring-boot:run' TO SHOW VERSIONS"
+                    + " AND START. USE FOR EXAMPLE 'mvn dependency:resolve" + " -Dsort' TO JUST SEE DEPENDENCIES. "
+                    + "<<<<<<<<<<<<<<<<<\n");
         });
         app.run(args);
     }

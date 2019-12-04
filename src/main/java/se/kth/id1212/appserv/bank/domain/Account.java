@@ -62,13 +62,14 @@ public class Account implements AccountDTO {
     private int optLockVersion;
 
     @NotNull(message = "{acct.holder.missing}")
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH,
-                          CascadeType.DETACH}, optional = false)
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH,
+            CascadeType.DETACH }, optional = false)
     @JoinColumn(name = "FK_ACCOUNT_HOLDER")
     private Holder holder;
 
     /**
-     * Behaves like {@link #Account(Holder, int)}, except that the balance is set to zero.
+     * Behaves like {@link #Account(Holder, int)}, except that the balance is set to
+     * zero.
      *
      * @param holder The account holder.
      */
@@ -77,13 +78,16 @@ public class Account implements AccountDTO {
     }
 
     /**
-     * <p>Creates a new instance with the specified holder and balance. Note
-     * that an account always has exactly one holder. The newly created account will <em>not</em> be passed to the
-     * specified holder, that must be done after the constructor returns and the new instance is completely
-     * created.</p>
+     * <p>
+     * Creates a new instance with the specified holder and balance. Note that an
+     * account always has exactly one holder. The newly created account will
+     * <em>not</em> be passed to the specified holder, that must be done after the
+     * constructor returns and the new instance is completely created.
+     * </p>
      *
-     * <p>A unique account number will be set on the newly created
-     * instance.</p>
+     * <p>
+     * A unique account number will be set on the newly created instance.
+     * </p>
      *
      * @param holder  The account holder.
      * @param balance The initial balance.
@@ -119,8 +123,10 @@ public class Account implements AccountDTO {
      * Withdraws the specified amount.
      *
      * @param amount The amount to withdraw.
-     * @throws IllegalBankTransactionException When attempting to withdraw a negative or zero amount, or if withdrawal
-     *                                         would result in a negative balance.
+     * @throws IllegalBankTransactionException When attempting to withdraw a
+     *                                         negative or zero amount, or if
+     *                                         withdrawal would result in a negative
+     *                                         balance.
      */
     public void withdraw(int amount) throws IllegalBankTransactionException {
         if (amount <= 0) {
@@ -128,7 +134,7 @@ public class Account implements AccountDTO {
         }
         if (amount > balance) {
             throw new IllegalBankTransactionException(
-                "Attempt to withdraw amount greater than balance, balance: " + balance + ", amount: " + amount);
+                    "Attempt to withdraw amount greater than balance, balance: " + balance + ", amount: " + amount);
         }
         balance = balance - amount;
     }
@@ -137,7 +143,8 @@ public class Account implements AccountDTO {
      * Deposits the specified amount.
      *
      * @param amount The amount to deposit.
-     * @throws IllegalBankTransactionException When attempting to deposit a negative or zero amount.
+     * @throws IllegalBankTransactionException When attempting to deposit a negative
+     *                                         or zero amount.
      */
     public void deposit(int amount) throws IllegalBankTransactionException {
         if (amount <= 0) {
@@ -156,7 +163,7 @@ public class Account implements AccountDTO {
         if (!(object instanceof Account)) {
             return false;
         }
-        Account other = (Account)object;
+        Account other = (Account) object;
         return this.acctNo == other.acctNo;
     }
 

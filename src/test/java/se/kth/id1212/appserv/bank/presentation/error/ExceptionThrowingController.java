@@ -11,8 +11,7 @@ import se.kth.id1212.appserv.bank.presentation.acct.AcctController;
  */
 @Controller
 public class ExceptionThrowingController {
-    private static final Logger LOGGER =
-        LoggerFactory.getLogger(AcctController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AcctController.class);
 
     static final String URL_THAT_THROWS_EXCEPTION = "throw-exception";
 

@@ -14,8 +14,8 @@ public class HtmlMatchers {
     private static final String HTML_END = "</html>";
 
     /**
-     * Creates a matcher that matches when the examined html document contains
-     * one or more elements with the specified css selector.
+     * Creates a matcher that matches when the examined html document contains one
+     * or more elements with the specified css selector.
      *
      * @param cssSelector What to search for in the examined html document.
      * @return The desired matcher.
@@ -25,8 +25,8 @@ public class HtmlMatchers {
     }
 
     /**
-     * Creates a matcher that matches when the examined html document contains
-     * no elements with the specified css selector.
+     * Creates a matcher that matches when the examined html document contains no
+     * elements with the specified css selector.
      *
      * @param cssSelector What to search for in the examined html document.
      * @return The desired matcher.
@@ -52,8 +52,7 @@ public class HtmlMatchers {
 
         @Override
         public void describeTo(Description description) {
-            description.appendText(
-                "document contains element matching \"" + cssSelector + "\"");
+            description.appendText("document contains element matching \"" + cssSelector + "\"");
         }
     }
 
@@ -74,8 +73,7 @@ public class HtmlMatchers {
 
         @Override
         public void describeTo(Description description) {
-            description.appendText(
-                "document does not contain element matching \"" + cssSelector + "\"");
+            description.appendText("document does not contain element matching \"" + cssSelector + "\"");
         }
     }
 

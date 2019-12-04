@@ -68,8 +68,7 @@ public class BankConfig implements WebMvcConfigurer, ApplicationContextAware {
     }
 
     /**
-     * Create a bean with all server related properties from
-     * application.properties.
+     * Create a bean with all server related properties from application.properties.
      */
     @Bean
     public ServerProperties serverProperties() {
@@ -77,10 +76,9 @@ public class BankConfig implements WebMvcConfigurer, ApplicationContextAware {
     }
 
     /**
-     * Create a <code>org.springframework.web.servlet .ViewResolver</code> bean
-     * that delegates all views to thymeleaf's template engine. There is no need
-     * to specify view name patterns since the will be the only existing view
-     * resolver.
+     * Create a <code>org.springframework.web.servlet .ViewResolver</code> bean that
+     * delegates all views to thymeleaf's template engine. There is no need to
+     * specify view name patterns since the will be the only existing view resolver.
      */
     @Bean
     public ThymeleafViewResolver viewResolver() {
@@ -93,8 +91,8 @@ public class BankConfig implements WebMvcConfigurer, ApplicationContextAware {
 
     /**
      * Create a <code>org.thymeleaf.ITemplateEngine</code> bean that manages
-     * thymeleaf template integration with Spring. All template resolution will
-     * be delegated to the specified template resolver.
+     * thymeleaf template integration with Spring. All template resolution will be
+     * delegated to the specified template resolver.
      */
     @Bean(name = "bankTemplateEngine")
     public SpringTemplateEngine templateEngine() {
@@ -106,20 +104,19 @@ public class BankConfig implements WebMvcConfigurer, ApplicationContextAware {
         // across different data types, so this flag is "false" by default
         // for safer backwards compatibility.
         templateEngine.setEnableSpringELCompiler(true);
-        //Add the layout dialect, which enables reusing layout html pages.
+        // Add the layout dialect, which enables reusing layout html pages.
         templateEngine.addDialect(new LayoutDialect());
         return templateEngine;
     }
 
     /**
-     * Create a <code>org.thymeleaf.templateresolver.ITemplateResolver</code>
-     * that can handle thymeleaf template integration with Spring. This will be
-     * the only existing template resolver.
+     * Create a <code>org.thymeleaf.templateresolver.ITemplateResolver</code> that
+     * can handle thymeleaf template integration with Spring. This will be the only
+     * existing template resolver.
      */
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
-        SpringResourceTemplateResolver templateResolver =
-                new SpringResourceTemplateResolver();
+        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(this.applicationContext);
         // Templates file shall have the path /web-root/<template name>.html
         templateResolver.setPrefix("classpath:/web-root/");
@@ -141,10 +138,9 @@ public class BankConfig implements WebMvcConfigurer, ApplicationContextAware {
         int cachePeriodForStaticFilesInSecs = 1;
         String rootDirForStaticFiles = "classpath:/web-root/";
 
-        registry.addResourceHandler("/**")
-                .addResourceLocations(rootDirForStaticFiles)
-                .setCachePeriod(cachePeriodForStaticFilesInSecs)
-                .resourceChain(true).addResolver(new PathResourceResolver());
+        registry.addResourceHandler("/**").addResourceLocations(rootDirForStaticFiles)
+                .setCachePeriod(cachePeriodForStaticFilesInSecs).resourceChain(true)
+                .addResolver(new PathResourceResolver());
     }
 
     /**
@@ -162,7 +158,7 @@ public class BankConfig implements WebMvcConfigurer, ApplicationContextAware {
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         String nameOfHttpParamForLangCode = "lang";
-        String[] allowedHttpMethodsForLocaleChange = {"GET", "POST"};
+        String[] allowedHttpMethodsForLocaleChange = { "GET", "POST" };
 
         LocaleChangeInterceptor i18nBean = new LocaleChangeInterceptor();
         i18nBean.setParamName(nameOfHttpParamForLangCode);
@@ -173,12 +169,11 @@ public class BankConfig implements WebMvcConfigurer, ApplicationContextAware {
 
     /**
      * Create a <code>org.springframework.web.servlet.i18n
-     * .SessionLocaleResolver</code> that stores the user's current locale in
-     * the session object.
+     * .SessionLocaleResolver</code> that stores the user's current locale in the
+     * session object.
      */
     @Bean
-    public LocaleResolver localeResolver()
-    {
+    public LocaleResolver localeResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
         localeResolver.setDefaultLocale(new Locale("en"));
         return localeResolver;
@@ -186,15 +181,14 @@ public class BankConfig implements WebMvcConfigurer, ApplicationContextAware {
 
     /**
      * Create a <code>org.springframework.context.support.
-     * ReloadableResourceBundleMessageSource</code> that loads resource
-     * bundles for i18n.
+     * ReloadableResourceBundleMessageSource</code> that loads resource bundles for
+     * i18n.
      */
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
         String l10nMsgDir = "classpath:/i18n/Messages";
         String l10nValidationMsgDir = "classpath:/i18n/ValidationMessages";
-        ReloadableResourceBundleMessageSource resource =
-                new ReloadableResourceBundleMessageSource();
+        ReloadableResourceBundleMessageSource resource = new ReloadableResourceBundleMessageSource();
         resource.addBasenames(l10nMsgDir, l10nValidationMsgDir);
         resource.setDefaultEncoding("UTF-8");
         resource.setFallbackToSystemLocale(false);
