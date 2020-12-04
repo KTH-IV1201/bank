@@ -23,20 +23,22 @@
  */
 package se.kth.id1212.appserv.bank.repository;
 
+import java.util.List;
+
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import se.kth.id1212.appserv.bank.domain.Account;
 
-import java.util.List;
+import se.kth.id1212.appserv.bank.domain.Account;
 
 /**
  * Contains all database access concerning accounts.
  */
 @Repository
-@Transactional(propagation = Propagation.MANDATORY) // Applies only to methods explicitly declared in this interface,
+@Transactional(propagation = Propagation.MANDATORY) // Applies only to methods
+// explicitly declared in this interface,
 // not to those inherited from JpaRepository. This is quite dangerous, there
 // will be no error if an inherited method is
 // called, but default transaction configuration will be used instead of what is

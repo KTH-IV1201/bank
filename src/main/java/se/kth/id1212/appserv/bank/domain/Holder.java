@@ -23,7 +23,8 @@
  */
 package se.kth.id1212.appserv.bank.domain;
 
-import se.kth.id1212.appserv.bank.util.Util;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,14 +33,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
+
+import se.kth.id1212.appserv.bank.util.Util;
 
 @Entity
 @Table(name = "HOLDER")
@@ -47,8 +47,9 @@ public class Holder implements HolderDTO {
     private static final String SEQUENCE_NAME_KEY = "SEQ_NAME";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_NAME_KEY)
-    @SequenceGenerator(name = SEQUENCE_NAME_KEY, sequenceName = "BANK_SEQUENCE")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_NAME_KEY)
+    // @SequenceGenerator(name = SEQUENCE_NAME_KEY, sequenceName = "BANK_SEQUENCE")
     @Column(name = "HLD_ID")
     private long id;
 

@@ -1,5 +1,5 @@
 # The Bank Application
-This is the bank sample application for IV1201. The purpose is to show usage of Java frameworks and tools. It is similar to the bank application used in hw4 in ID1212, Network Programming, but more extensive.
+This is the bank sample application for IV1201. The purpose is to show usage of Java frameworks and tools. 
 
 ## Tools
 The following software development tools are used.
@@ -24,19 +24,22 @@ The following frameworks are used.
 
 Below follows instructions on how to perform particular tasks.
 
-### To run with mariadb in docker.
+### To run with MySQL in docker.
+1. Set the environment variables `MYSQL_PORT_3306_TCP_ADDR` and `MYSQL_PORT_3306_TCP_PORT`.
 
-1. Start the mariadb container.  
-```docker run --name bank-mariadb -d -e MYSQL_ROOT_PASSWORD=jpa mariadb:10.3```
+2. Start the MySQL container.  
+```docker run --name bank-mysql -d -e MYSQL_ROOT_PASSWORD=your-password mysql:8.0```
 
-2. Start the mysql client against the mariadb container.  
-```docker run --link bank-mariadb:mysql -it --rm mariadb sh -c 'exec mysql -h${MYSQL_PORT_3306_TCP_ADDR} -P${MYSQL_PORT_3306_TCP_PORT} -uroot -p'```
+3. Start the MySQL client against the MySQL container.  
+```docker run --link bank-mysql:mysql -it --rm mysql sh -c 'exec mysql -h${MYSQL_PORT_3306_TCP_ADDR} -P${MYSQL_PORT_3306_TCP_PORT} -uroot -pyour-password'```
 
     1. Create the database  
     `create database appservspringbank;`
     2. Create the tables  
     `use appservspringbank;`  
-    `<run the provided script>`
+    run the commands in the SQl script `create-appservspringbank-mysql.sql`
+    3. Quit the MySQL client
+    `\q`
 
-3. Start the bank server  
-```docker run --link bank-mariadb:mysql -p8080:8080 -e spring.datasource.url='jdbc:mariadb://${MYSQL_PORT_3306_TCP_ADDR}:${MYSQL_PORT_3306_TCP_PORT}/appservspringbank?serverTimezone=UTC' -e spring.datasource.username=root -e spring.datasource.password=`your password` se.kth.id1212/appserv-spring:2.0```
+4. Start the bank server  
+```docker run --link bank-mysql:mysql -p8080:8080 -e spring.datasource.url='jdbc:mysql://${MYSQL_PORT_3306_TCP_ADDR}:${MYSQL_PORT_3306_TCP_PORT}/appservspringbank?serverTimezone=UTC' -e spring.datasource.username=root -e spring.datasource.password=your-password se.kth.id1212/appserv-spring:2.0```

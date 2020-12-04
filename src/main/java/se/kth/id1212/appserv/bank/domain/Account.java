@@ -23,8 +23,6 @@
  */
 package se.kth.id1212.appserv.bank.domain;
 
-import se.kth.id1212.appserv.bank.util.Util;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,11 +31,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+
+import se.kth.id1212.appserv.bank.util.Util;
 
 @Entity
 @Table(name = "ACCOUNT")
@@ -45,8 +44,9 @@ public class Account implements AccountDTO {
     private static final String SEQUENCE_NAME_KEY = "SEQ_NAME";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_NAME_KEY)
-    @SequenceGenerator(name = SEQUENCE_NAME_KEY, sequenceName = "BANK_SEQUENCE")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_NAME_KEY)
+    // @SequenceGenerator(name = SEQUENCE_NAME_KEY, sequenceName = "BANK_SEQUENCE")
     @Column(name = "ACCT_ID")
     private long id;
 
