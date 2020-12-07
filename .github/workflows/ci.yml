@@ -35,4 +35,10 @@ jobs:
         with:
           java-version: '14'
 
+      - name: Create DB
+        run: psql -d postgresql://postgres@postgres/appservspringbank -f createappservspringbank-postgres.sql.sql
+        working-directory: ./src/main/scripts/db
+        env:
+          PGPASSWORD: postgres
+
       - run: ./mvnw package

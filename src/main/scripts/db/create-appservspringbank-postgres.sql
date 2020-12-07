@@ -1,5 +1,5 @@
--- Assumes the database already exists. The spring app uses the database
--- name appservspringbank. Create such a database before running this script. Run 
+-- This script assumes the database already exists. The spring app uses the database
+-- name appservspringbank. Create such a database before running this script, then run 
 -- the script with the command
 -- psql -d appservspringbank -f src/main/scripts/db/create-appservspringbank-postgres.sql
 
