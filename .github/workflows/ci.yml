@@ -36,12 +36,10 @@ jobs:
 #        with:
 #          java-version: '14'
 
-      - uses: n1ru4l/psql-action@v1
+      - name: Create DB
+        uses: akanieski/setup-postgres-cli@v0.1.2
         with:
-          POSTGRES_HOST: "postgres"
-          POSTGRES_USER: "postgres"
-          POSTGRES_PASSWORD: "postgres"
-          POSTGRES_PORT: "5432"
-          DATABASE_DUMP_PATH: "/src/main/scripts/db/create-appservspringbank-postgres.sql"
+          commands: psql -d postgres@postgres:5432/appservspringbank -f src/main/scripts/db/create-appservspringbank-postgres.sql 
+          password: postgres
 
       - run: ./mvnw package
