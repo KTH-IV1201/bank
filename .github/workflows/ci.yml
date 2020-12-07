@@ -6,9 +6,10 @@ jobs:
   mvn-inst:
     name: run-mvn-install
     runs-on: ubuntu-latest
+    container: openjdk:14-jdk-slim
 
     env:
-      POSTGRES_TCP_ADDR: localhost
+      POSTGRES_TCP_ADDR: postgres
       POSTGRES_TCP_PORT: 5432
       SPRING_DATASOURCE_PASSWORD: postgres
 
@@ -25,15 +26,15 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        ports:
-          - 5432: 5432
+#        ports:
+#          - 5432: 5432
 
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '14'
+#      - uses: actions/setup-java@v1
+#        with:
+#          java-version: '14'
 
       - name: Create DB
         run: psql -d postgresql://postgres@postgres/appservspringbank -f createappservspringbank-postgres.sql.sql
