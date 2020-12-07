@@ -1,14 +1,14 @@
 <configuration scan="true">
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/var/log/spring/spring.log</file>
+        <file>./logs/spring/spring.log</file>
         <encoder>
             <pattern>%boldGreen(%date) %level [%thread] %boldRed(%logger) [%file:%line] %boldMagenta(%msg) %n %n
             </pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePattern>/var/log/spring/spring.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>./logs/spring/spring.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- keep 30 days' worth of history capped at 100MB total size -->
             <maxHistory>30</maxHistory>
             <totalSizeCap>100MB</totalSizeCap>

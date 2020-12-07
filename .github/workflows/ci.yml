@@ -7,13 +7,21 @@ jobs:
     name: run-mvn-install
     runs-on: ubuntu-latest
 
+    env:
+      POSTGRES_TCP_ADDR: 'localhost'
+      POSTGRES_TCP_PORT: 5432
+
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: github-ci
+
       - uses: actions/setup-java@v1
         with:
           java-version: '14'
-      - run: java -version 
-      - run: echo $JAVA_HOME
+
+      - uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: '13.1'
+          postgresql db: 'appservspringbank'
+          postgresql user: 'postgres'
+
       - run: ./mvnw package
