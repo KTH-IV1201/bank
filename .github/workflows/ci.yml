@@ -6,7 +6,7 @@ jobs:
   mvn-inst:
     name: run-mvn-install
     runs-on: ubuntu-latest
-    container: 14-jdk-slim
+    container: openjdk:14-jdk-slim
 
     env:
       POSTGRES_TCP_ADDR: postgres
