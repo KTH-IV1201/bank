@@ -12,6 +12,7 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '14'
+      - run: java -version 
       - uses: LucaFeger/action-maven-cli@master
         with:
           args: package
