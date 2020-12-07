@@ -13,6 +13,7 @@ jobs:
         with:
           java-version: '14'
       - run: java -version 
+      - run: echo $JAVA_HOME
       - uses: LucaFeger/action-maven-cli@master
         with:
           args: package
