@@ -36,10 +36,10 @@ jobs:
 #        with:
 #          java-version: '14'
 
-      - name: Create DB
-        uses: akanieski/setup-postgres-cli@v0.1.2
-        with:
-          commands: psql -d appservspringbank -h postgres -p 5432 -U postgres -f src/main/scripts/db/create-appservspringbank-postgres.sql 
-          password: postgres
+#      - name: Create DB
+#        uses: akanieski/setup-postgres-cli@v0.1.2
+#        with:
+#          commands: psql -d appservspringbank -h postgres -p 5432 -U postgres -f src/main/scripts/db/create-appservspringbank-postgres.sql 
+#          password: postgres
 
       - run: ./mvnw package
