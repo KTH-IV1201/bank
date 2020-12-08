@@ -161,7 +161,7 @@
                             <goal>analyze-duplicate</goal>
                             <goal>display-ancestors</goal>
                         </goals>
-                        <phase>validate</phase>
+                        <phase>package</phase>
                     </execution>
                 </executions>
             </plugin>

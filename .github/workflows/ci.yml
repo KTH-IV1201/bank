@@ -31,3 +31,11 @@ jobs:
       - uses: actions/checkout@v2
 
       - run: ./mvnw package
+
+      # Show results
+      - run: ls target/site/
+      - run: cat target/site/pmd/pmd.xml
+      - run: cat target/site/pmd/cpd.xml
+      - run: cat target/site/spotbugs/spotbugs.xml
+      - run: docker image ls
+      # JaCoCo results not listed, should be uploaded to for example codecov.io
