@@ -30,12 +30,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - run: ./mvnw package
+      - run: ./mvnw verify
 
       # Show results
       - run: ls target/site/
       - run: cat target/site/pmd/pmd.xml
       - run: cat target/site/pmd/cpd.xml
       - run: cat target/site/spotbugs/spotbugs.xml
+      - run: cat target/surefire-reports/*txt
       - run: docker image ls
       # JaCoCo results not listed, should be uploaded to for example codecov.io
