@@ -188,19 +188,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--<plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.1.4</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.github.spotbugs</groupId>
-                        <artifactId>spotbugs</artifactId>
-                        <version>4.2.0</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            -->
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
@@ -256,7 +243,7 @@
                 <executions>
                     <execution>
                         <id>default</id>
-                        <phase>install</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>build</goal>
                         </goals>
@@ -345,18 +332,4 @@
             </plugin>
         </plugins>
     </reporting>
-
-    <!--<repositories>-->
-    <!--<repository>-->
-    <!--<id>spring-milestones</id>-->
-    <!--<url>https://repo.spring.io/milestone</url>-->
-    <!--</repository>-->
-    <!--</repositories>-->
-    <!--<pluginRepositories>-->
-    <!--<pluginRepository>-->
-    <!--<id>spring-milestones</id>-->
-    <!--<url>https://repo.spring.io/milestone</url>-->
-    <!--</pluginRepository>-->
-    <!--</pluginRepositories>-->
-
 </project>
