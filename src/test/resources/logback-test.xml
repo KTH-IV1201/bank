@@ -21,7 +21,7 @@
         </encoder>
     </appender>
 
-    <logger name="se.kth.id1212.appserv.bank" level="off" additivity="false">
+    <logger name="se.kth.iv1201.appserv.bank" level="off" additivity="false">
         <appender-ref ref="FILE"/>
         <appender-ref ref="STDOUT"/>
     </logger>

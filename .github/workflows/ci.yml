@@ -38,5 +38,5 @@ jobs:
       - run: cat target/site/pmd/cpd.xml
       - run: cat target/site/spotbugs/spotbugs.xml
       - run: cat target/surefire-reports/*txt
-      - run: docker image ls
       # JaCoCo results not listed, should be uploaded to for example codecov.io
+      # Use ./mvnw dockerfile:tag and ./mvnw dockerfile:push to upload docker image.

@@ -42,4 +42,4 @@ Below follows instructions on how to perform particular tasks.
     `\q`
 
 4. Start the bank server  
-```docker run --link bank-mysql:mysql -p8080:8080 -e spring.datasource.url='jdbc:mysql://${MYSQL_PORT_3306_TCP_ADDR}:${MYSQL_PORT_3306_TCP_PORT}/appservspringbank?serverTimezone=UTC' -e spring.datasource.username=root -e spring.datasource.password=your-password se.kth.id1212/appserv-spring:2.0```
+```docker run --link bank-mysql:mysql -p8080:8080 -e spring.datasource.url='jdbc:mysql://${MYSQL_PORT_3306_TCP_ADDR}:${MYSQL_PORT_3306_TCP_PORT}/appservspringbank?serverTimezone=UTC' -e spring.datasource.username=root -e spring.datasource.password=your-password se.kth.iv1201/appserv-spring:2.0```
