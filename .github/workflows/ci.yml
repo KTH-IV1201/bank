@@ -3,7 +3,7 @@ name: ci-run-mvn
 on: push
 
 jobs:
-  mvn-inst:
+  mvn-verify:
     name: run-mvn-install
     runs-on: ubuntu-latest
     container: openjdk:14-jdk-slim
