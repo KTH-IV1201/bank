@@ -95,12 +95,6 @@ class HolderTest implements TestExecutionListener {
 
     @Test
     @Rollback
-    void testNullName() {
-        testInvalidHolder(new Holder(null), "{holder.name.missing}");
-    }
-
-    @Test
-    @Rollback
     void testEmptyHolder() {
         testInvalidHolder(new Holder(""), "{holder.name.length}");
     }

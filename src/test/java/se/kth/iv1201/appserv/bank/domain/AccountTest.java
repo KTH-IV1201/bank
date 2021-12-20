@@ -45,6 +45,8 @@ import se.kth.iv1201.appserv.bank.repository.DbUtil;
 // @SpringBootTest can be used instead of @SpringJUnitWebConfig,
 // @EnableAutoConfiguration and @ComponentScan, but are we using
 // JUnit5 in that case?
+
+// Med @SpringBootTest sker anropet över HTTP, dvs "på riktigt" och inte med mockad server.
 @TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class, AccountTest.class,
         TransactionalTestExecutionListener.class })
 @NotThreadSafe
