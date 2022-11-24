@@ -2,14 +2,14 @@ package se.kth.iv1201.appserv.bank.domain;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.hasItem;
-// import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+// import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,7 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
+import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.Rollback;
@@ -40,7 +40,7 @@ import net.jcip.annotations.NotThreadSafe;
 import se.kth.iv1201.appserv.bank.repository.DbUtil;
 import se.kth.iv1201.appserv.bank.repository.HolderRepository;
 
-@SpringJUnitWebConfig(initializers = ConfigFileApplicationContextInitializer.class)
+@SpringJUnitWebConfig(initializers = ConfigDataApplicationContextInitializer.class)
 @EnableAutoConfiguration
 @ComponentScan(basePackages = { "se.kth.iv1201.appserv.bank" })
 // @SpringBootTest can be used instead of @SpringJUnitWebConfig,

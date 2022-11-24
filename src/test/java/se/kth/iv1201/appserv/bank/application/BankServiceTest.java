@@ -16,7 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
+import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.TestContext;
@@ -37,7 +37,7 @@ import se.kth.iv1201.appserv.bank.repository.AccountRepository;
 import se.kth.iv1201.appserv.bank.repository.DbUtil;
 import se.kth.iv1201.appserv.bank.repository.HolderRepository;
 
-@SpringJUnitWebConfig(initializers = ConfigFileApplicationContextInitializer.class)
+@SpringJUnitWebConfig(initializers = ConfigDataApplicationContextInitializer.class)
 @EnableAutoConfiguration
 @ComponentScan(basePackages = { "se.kth.iv1201.appserv.bank" })
 // @SpringBootTest can be used instead of @SpringJUnitWebConfig,

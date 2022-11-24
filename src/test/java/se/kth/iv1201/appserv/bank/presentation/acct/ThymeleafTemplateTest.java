@@ -1,10 +1,21 @@
 package se.kth.iv1201.appserv.bank.presentation.acct;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static se.kth.iv1201.appserv.bank.presentation.PresentationTestHelper.addParam;
+import static se.kth.iv1201.appserv.bank.presentation.PresentationTestHelper.containsElements;
+import static se.kth.iv1201.appserv.bank.presentation.PresentationTestHelper.sendGetRequest;
+import static se.kth.iv1201.appserv.bank.presentation.PresentationTestHelper.sendPostRequest;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.servlet.http.HttpSession;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
+import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
@@ -14,19 +25,10 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
 import se.kth.iv1201.appserv.bank.repository.DbUtil;
 
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.sql.SQLException;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static se.kth.iv1201.appserv.bank.presentation.PresentationTestHelper.addParam;
-import static se.kth.iv1201.appserv.bank.presentation.PresentationTestHelper.containsElements;
-import static se.kth.iv1201.appserv.bank.presentation.PresentationTestHelper.sendGetRequest;
-import static se.kth.iv1201.appserv.bank.presentation.PresentationTestHelper.sendPostRequest;
-
-@SpringJUnitWebConfig(initializers = ConfigFileApplicationContextInitializer.class)
+@SpringJUnitWebConfig(initializers = ConfigDataApplicationContextInitializer.class)
 @EnableAutoConfiguration
 @ComponentScan(basePackages = { "se.kth.iv1201.appserv.bank" })
 // @SpringBootTest can be used instead of @SpringJUnitWebConfig,

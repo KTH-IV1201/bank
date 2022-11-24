@@ -109,14 +109,4 @@ public class ExceptionHandlers implements ErrorController {
     private String extractHttpStatusCode(HttpServletRequest request) {
         return request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE).toString();
     }
-
-    // This method is never called. Could that be a bug in spring? I can not
-    // find any call to an appropriate method named getErrorPath anywhere in
-    // spring's source code. The path is instead set in application.properties,
-    // in the property server.error.path. For this to work, there
-    // must also be the property setting server.error.whitelabel.enabled=false.
-    @Override
-    public String getErrorPath() {
-        return "/" + ERROR_PATH;
-    }
 }
