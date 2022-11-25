@@ -1,30 +1,64 @@
 # The Bank Application
+
 This is the bank sample application for IV1201. The purpose is to show usage of Java frameworks and tools. 
 
 ## Tools
+
 The following software development tools are used.
- - Version control (Git)
- - Project management (Maven)
- - Test (Spring MVC Test Framework)
- - Static analysis (Spotbugs and PMD)
- - Containerization (Docker)
- - Continous integration, CI (Travis)
- - Cloud runtime (Heroku)
+
+- Version control (Git)
+- Project management (Maven)
+- Test (Spring MVC Test Framework)
+- Static analysis (Spotbugs and PMD)
+- Containerization (Docker)
+- Continous integration, CI (Travis)
+- Cloud runtime (Heroku)
 
 ## Frameworks
+
 The following frameworks are used.
- - Java Servlets
- - Spring core technologies, in particular the IoC container
- - Spring Boot
- - Spring Web MVC
- - Thymeleaf
- - Spring Data (Commons and JPA)
- 
+
+- Java Servlets
+- Spring core technologies, in particular the IoC container
+- Spring Boot
+- Spring Web MVC
+- Thymeleaf
+- Spring Data (Commons and JPA)
+
 ## Help
 
 Below follows instructions on how to perform particular tasks.
 
-### To run with MySQL in docker.
+### To start with maven and postgres
+
+1. Set the following environment variables
+
+    - `POSTGRES_TCP_ADDR` is the host where the postgres server is running
+    - `POSTGRES_TCP_PORT` is the port number of the postgres server
+    - `SPRING_DATASOURCE_PASSWORD` is the password of the postgres server
+
+1. Start the application with the command `mvn spring-boot:run`
+
+### To execute tests and static analyzers with maven and postgres
+
+The same steps as in [To start with maven and postgres](#to-start-with-maven-and-postgres), but give the command `mvn install` instead of `mvn spring-boot:run`
+
+### To start with maven and MySQL
+
+1. Comment out the lines related to postgres in the file `application.properties`, it's written in that file which these lines are.
+
+1. Uncomment the lines related to MySQL in the file `application.properties`, it's written in that file which these lines are.
+
+1. Set the following environment variables
+
+    - `MYSQL_PORT_3306_TCP_ADDR` is the host where the MySQL server is running
+    - `MYSQL_PORT_3306_TCP_PORT` is the port number of the MySQL server
+    - `SPRING_DATASOURCE_PASSWORD` is the password of the MySQL server
+
+1. Start the application with the command `mvn spring-boot:run`
+
+### To run with MySQL in docker
+
 1. Set the environment variables `MYSQL_PORT_3306_TCP_ADDR` and `MYSQL_PORT_3306_TCP_PORT`.
 
 2. Start the MySQL container.  
