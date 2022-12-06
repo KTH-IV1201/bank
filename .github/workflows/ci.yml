@@ -6,7 +6,7 @@ jobs:
   mvn-verify:
     name: run-mvn-install
     runs-on: ubuntu-latest
-    container: openjdk:14-jdk-slim
+    container: eclipse-temurin:19-ubi9-minimal
 
     env:
       POSTGRES_TCP_ADDR: postgres
