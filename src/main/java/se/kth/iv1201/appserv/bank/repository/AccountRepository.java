@@ -61,5 +61,5 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account> findAll();
 
     @Override
-    Account save(Account acct);
+    <S extends Account> S save(S acct);
 }

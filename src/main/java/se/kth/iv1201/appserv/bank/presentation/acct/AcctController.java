@@ -23,8 +23,6 @@
  */
 package se.kth.iv1201.appserv.bank.presentation.acct;
 
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +34,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import jakarta.validation.Valid;
 import se.kth.iv1201.appserv.bank.application.BankService;
 import se.kth.iv1201.appserv.bank.domain.AccountDTO;
 import se.kth.iv1201.appserv.bank.domain.IllegalBankTransactionException;

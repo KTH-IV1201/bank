@@ -23,8 +23,7 @@
  */
 package se.kth.iv1201.appserv.bank.presentation.acct;
 
-import javax.validation.constraints.NotNull;
-
+import jakarta.validation.constraints.NotNull;
 import se.kth.iv1201.appserv.bank.util.Util;
 
 /**

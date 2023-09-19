@@ -7,8 +7,6 @@ import static se.kth.iv1201.appserv.bank.presentation.PresentationTestHelper.con
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +24,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import jakarta.servlet.RequestDispatcher;
 import se.kth.iv1201.appserv.bank.repository.DbUtil;
 
 @SpringJUnitWebConfig(initializers = ConfigDataApplicationContextInitializer.class)

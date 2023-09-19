@@ -16,9 +16,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +33,8 @@ import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import net.jcip.annotations.NotThreadSafe;
 import se.kth.iv1201.appserv.bank.repository.DbUtil;
 import se.kth.iv1201.appserv.bank.repository.HolderRepository;

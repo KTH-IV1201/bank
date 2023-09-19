@@ -1,5 +1,12 @@
 package se.kth.iv1201.appserv.bank.presentation;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hamcrest.Matcher;
 import org.hamcrest.core.AllOf;
 import org.springframework.mock.web.MockHttpSession;
@@ -9,13 +16,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * Functional library for testing the presentation layer.

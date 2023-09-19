@@ -11,9 +11,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -25,6 +22,8 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import se.kth.iv1201.appserv.bank.repository.DbUtil;
 
 @SpringJUnitWebConfig(initializers = ConfigDataApplicationContextInitializer.class)

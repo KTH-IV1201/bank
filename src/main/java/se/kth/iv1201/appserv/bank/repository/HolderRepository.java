@@ -67,7 +67,7 @@ public interface HolderRepository extends JpaRepository<Holder, Long> {
     Holder findHolderByHolderNo(long holderNo);
 
     @Override
-    Holder save(Holder holder);
+    <S extends Holder> S save(S holder);
 
     @Override
     List<Holder> findAll();
