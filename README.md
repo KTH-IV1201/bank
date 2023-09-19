@@ -38,6 +38,7 @@ Below follows instructions on how to perform particular tasks.
     - `SPRING_DATASOURCE_PASSWORD` is the password of the postgres server
 
 1. Start the application with the command `mvn spring-boot:run`
+1. The application can now be reached at the url `http://localhost:8080/bank`
 
 ### To execute tests and static analyzers with maven and postgres
 
@@ -56,6 +57,7 @@ The same steps as in [To start with maven and postgres](#to-start-with-maven-and
     - `SPRING_DATASOURCE_PASSWORD` is the password of the MySQL server
 
 1. Start the application with the command `mvn spring-boot:run`
+1. The application can now be reached at the url `http://localhost:8080/bank`
 
 ### To run with MySQL in docker
 
