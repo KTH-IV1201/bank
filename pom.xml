@@ -20,7 +20,7 @@
         <pmd.output.dir>${project.build.directory}/site/pmd</pmd.output.dir>
         <pmd.target.dir>${pmd.output.dir}</pmd.target.dir>
         <spotbugs.output.dir>${project.build.directory}/site/spotbugs</spotbugs.output.dir>
-        <maven.compiler.source>20</maven.compiler.source>
+        <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
     </properties>
 
@@ -169,7 +169,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.21.2</version>
+                <version>3.22.0</version>
                 <configuration>
                     <!--<analysisCache>true</analysisCache> Can not be used after mvn:clean, since cache is removed.-->
                     <verbose>true</verbose>
