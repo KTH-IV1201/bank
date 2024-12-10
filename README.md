@@ -1,6 +1,6 @@
 # The Bank Application
 
-This is the bank sample application for IV1201. The purpose is to show usage of Java frameworks and tools. 
+This is the bank sample application for IV1201. The purpose is to show usage of Java frameworks and tools. **The latest supported JDK is 22, since it's the latest version supported by the PMD static analyzer.**
 
 ## Tools
 
