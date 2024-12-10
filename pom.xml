@@ -20,7 +20,7 @@
         <pmd.output.dir>${project.build.directory}/site/pmd</pmd.output.dir>
         <pmd.target.dir>${pmd.output.dir}</pmd.target.dir>
         <spotbugs.output.dir>${project.build.directory}/site/spotbugs</spotbugs.output.dir>
-        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
     </properties>
 
