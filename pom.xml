@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.0</version>
+        <version>3.5.3</version>
     </parent>
 
     <properties>
@@ -20,7 +20,7 @@
         <pmd.output.dir>${project.build.directory}/site/pmd</pmd.output.dir>
         <pmd.target.dir>${pmd.output.dir}</pmd.target.dir>
         <spotbugs.output.dir>${project.build.directory}/site/spotbugs</spotbugs.output.dir>
-        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.source>24</maven.compiler.source>
         <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
     </properties>
 
@@ -29,12 +29,12 @@
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy</artifactId>
-                <version>3.0.23</version>
+                <version>3.0.25</version>
             </dependency>
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
-                <version>5.11.3</version>
+                <version>5.12.2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -72,12 +72,12 @@
         <dependency>
             <groupId>nz.net.ultraq.thymeleaf</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
-            <version>3.3.0</version>
+            <version>3.4.0</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>8.0.1.Final</version>
+            <version>9.0.1.Final</version>
         </dependency>
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
@@ -87,12 +87,12 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.7.4</version>
+            <version>42.7.7</version>
         </dependency>
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>9.1.0</version>
+            <version>9.3.0</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -102,7 +102,7 @@
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>annotations</artifactId>
-            <version>3.0.1u2</version>
+            <version>3.0.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -125,7 +125,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.18.3</version>
+            <version>1.21.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -149,7 +149,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.9.0</version>
                 <configuration>
                     <sort>true</sort>
                 </configuration>
@@ -169,7 +169,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.22.0</version>
+                <version>3.28.0</version>
                 <configuration>
                     <!--<analysisCache>true</analysisCache> Can not be used after mvn:clean, since cache is removed.-->
                     <verbose>true</verbose>
@@ -192,12 +192,12 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.8.2.0</version>
+                <version>4.9.3.0</version>
                 <dependencies>
                     <dependency>
                         <groupId>com.github.spotbugs</groupId>
                         <artifactId>spotbugs</artifactId>
-                        <version>4.8.6</version>
+                        <version>4.9.3</version>
                     </dependency>
                 </dependencies>
                 <configuration>
@@ -210,7 +210,7 @@
                         <plugin>
                             <groupId>com.h3xstream.findsecbugs</groupId>
                             <artifactId>findsecbugs-plugin</artifactId>
-                            <version>1.13.0</version>
+                            <version>1.14.0</version>
                         </plugin>
                     </plugins>
                 </configuration>
@@ -254,7 +254,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.2</version>
+                <version>3.5.4</version>
                 <configuration>
                     <failIfNoTests>true</failIfNoTests>
                     <includes>
@@ -269,13 +269,13 @@
                     <dependency>
                         <groupId>org.junit.jupiter</groupId>
                         <artifactId>junit-jupiter-api</artifactId>
-                        <version>5.11.3</version>
+                        <version>5.12.2</version>
                         <scope>runtime</scope>
                     </dependency>
                     <dependency>
                         <groupId>org.junit.jupiter</groupId>
                         <artifactId>junit-jupiter-engine</artifactId>
-                        <version>5.11.3</version>
+                        <version>5.12.2</version>
                         <scope>runtime</scope>
                     </dependency>
                 </dependencies>
@@ -283,7 +283,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.12</version>
+                <version>0.8.13</version>
                 <executions>
                     <execution>
                         <id>default-prepare-agent</id>
@@ -329,7 +329,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>3.3.1</version>
+                <version>3.6.0</version>
             </plugin>
         </plugins>
     </reporting>

@@ -1,4 +1,4 @@
-FROM openjdk:14-jdk-slim
+FROM eclipse-temurin:21-noble
 VOLUME /tmp
 ARG JAR_FILE
 COPY ${JAR_FILE} app.jar
